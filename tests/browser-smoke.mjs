@@ -7,6 +7,7 @@ import { chromium } from 'playwright';
 import { characterContext, render } from './helpers.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+const manifest = JSON.parse(await readFile(path.join(root, 'module.json'), 'utf8'));
 const context = characterContext();
 context.cssClass = '';
 const sheet = render('actor/actor-character-sheet.hbs', context);
@@ -23,14 +24,22 @@ const hooks = `
     for (const callback of callbacks.get(name) ?? []) callback(...args);
   };
   const settings = new Map();
+  const values = new Map();
+  const profile = new Map();
+  window.themeProfile = profile;
   window.game = {
     version: '14.368', system: { id: 'prowlers-and-paragons' }, i18n: { lang: 'ru' },
+    user: { id: 'alice', getFlag(_scope, key) { return profile.get(key); },
+      async setFlag(_scope, key, value) { profile.set(key, value); } },
     settings: {
       settings,
       register(scope, key, config) { settings.set(scope + '.' + key, config); },
-      get(scope, key) { return settings.get(scope + '.' + key)?.default; }
+      get(scope, key) { return values.has(key) ? values.get(key) : settings.get(scope + '.' + key)?.default; },
+      async set(scope, key, value) { values.set(key, value); await settings.get(scope + '.' + key)?.onChange?.(value); }
     }
   };
+  window.setWorldTheme = value => game.settings.set('pnp-russian', 'worldTheme', value);
+  window.setPersonalTheme = value => game.settings.set('pnp-russian', 'personalTheme', value);
   window.ui = { windows: {} };
   await import('/scripts/main.mjs');
   fire('init');
@@ -48,7 +57,7 @@ const server = createServer(async (request, response) => {
     if (url.pathname === '/') {
       // Test both stylesheet orders: upstream loaded after the module must not
       // restore Bangers/Roboto Condensed on any text container.
-      const styles = ['/tests/fixtures/upstream/prowlers-and-paragons.css', '/styles/roboto.css', '/styles/pnp-russian.css'];
+      const styles = ['/tests/fixtures/upstream/prowlers-and-paragons.css', ...manifest.styles.map(file => `/${file}`)];
       if (url.searchParams.get('systemLast') === '1') styles.push(styles.shift());
       response.setHeader('content-type', 'text/html; charset=utf-8');
       response.end(`<!doctype html><html><head><meta charset="utf-8">${styles.map(p => `<link rel="stylesheet" href="${p}">`).join('')}
@@ -102,6 +111,53 @@ try {
     assert.equal(await page.locator('input[name="name"]').inputValue(), 'Armor');
     assert.match(await page.locator('i.fas').first().evaluate(e => getComputedStyle(e).fontFamily), /Font Awesome/);
     assert.doesNotMatch(await page.locator('#unrelated').evaluate(e => getComputedStyle(e).fontFamily), /PnP Roboto/);
+    assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), 'light');
+    await page.evaluate(() => {
+      const span = document.createElement('span');
+      span.id = 'authored-color'; span.style.color = '#bb2244'; span.textContent = 'Authored color';
+      document.querySelector('.editor-content').append(span);
+      document.querySelector('.sheet-tabs a').classList.add('active');
+    });
+    for (const theme of ['dark', 'light', 'green']) {
+      await page.evaluate(value => window.setWorldTheme(value), theme);
+      assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), theme);
+      // PnP animates item/control colors for 200 ms; measure the selected
+      // palette after those existing CSS transitions finish.
+      await page.evaluate(async () => {
+        getComputedStyle(document.querySelector('.item-name')).color;
+        await Promise.allSettled(document.getAnimations().map(animation => animation.finished));
+      });
+      const contrasts = await page.evaluate(() => {
+        function luminance(color) {
+          const rgb = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(v => {
+            v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+          });
+          return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+        }
+        const pairs = [
+          ['.window-content', '.window-content'], ['input[name="name"]', 'input[name="name"]'],
+          ['.sheet-header .resource-label', '.sheet-header'], ['.items-header .item-name', '.items-header'],
+          ['.items-list .item-name', '.items-list'], ['button', 'button'],
+          ['.sheet-tabs a.active', '.sheet-tabs a.active'], ['.editor-content', '.editor-content']
+        ];
+        return pairs.map(([text, surface]) => {
+          const foreground = luminance(getComputedStyle(document.querySelector(text)).color);
+          const background = luminance(getComputedStyle(document.querySelector(surface)).backgroundColor);
+          return { selector: text, ratio: (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05) };
+        });
+      });
+      for (const { selector, ratio } of contrasts) assert.ok(ratio >= 4.5, `${theme} ${selector}: ${ratio.toFixed(2)} contrast`);
+      assert.equal(await page.locator('#authored-color').evaluate(e => getComputedStyle(e).color), 'rgb(187, 34, 68)');
+      assert.equal(await page.locator('#unrelated').getAttribute('data-pnp-theme'), null);
+      if (!systemLast) {
+        await mkdir(path.join(root, 'dist'), { recursive: true });
+        await page.locator('#sheet').screenshot({ path: path.join(root, `dist/validation-theme-${theme}.png`) });
+      }
+    }
+    await page.evaluate(() => window.setPersonalTheme('dark'));
+    await page.evaluate(() => window.setWorldTheme('light'));
+    assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), 'dark', 'Personal choice overrides world changes');
+    assert.equal(await page.evaluate(() => window.themeProfile.get('sheetTheme')), 'dark');
     // Recreate a sheet without dispatching any render hook. The DOM attachment
     // fallback must discover the new window and the bounded observer its edits.
     await page.evaluate(() => {
@@ -113,12 +169,16 @@ try {
     });
     await page.waitForFunction(() => document.querySelector('#late-sheet [data-tab="powers"]').textContent === 'Силы');
     assert.match(await page.locator('#late-sheet input[name="name"]').evaluate(e => getComputedStyle(e).fontFamily), /PnP Roboto/);
+    assert.equal(await page.locator('#late-sheet').getAttribute('data-pnp-theme'), 'dark');
+    await page.evaluate(() => window.setPersonalTheme('world'));
+    assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), 'light');
+    assert.equal(await page.locator('#late-sheet').getAttribute('data-pnp-theme'), 'light');
     assert.deepEqual(errors, []);
     if (!systemLast) {
       await mkdir(path.join(root, 'dist'), { recursive: true });
       await page.screenshot({ path: path.join(root, 'dist/validation-sheet.png'), fullPage: true });
     }
-    console.log(`Chromium: concrete hook, window attachment, Russian tabs and all ${Object.keys(fonts).length} font selectors OK (systemLast=${systemLast})`);
+    console.log(`Chromium: Russian tabs, ${Object.keys(fonts).length} font selectors, 3 palettes/contrast, world/personal live changes and new windows OK (systemLast=${systemLast})`);
     await page.close();
   }
 } finally {
