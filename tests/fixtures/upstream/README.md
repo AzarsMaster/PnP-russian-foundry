@@ -13,3 +13,6 @@ of the licensed Foundry server or a full gameplay compatibility test.
 The templates and language catalog are distributed under the upstream MIT
 license retained in `LICENSE.txt`. No compendium content or game-rule text is
 included.
+
+`prowlers-and-paragons.css` is the unmodified stylesheet from the installed release
+`2.0.1` archive (commit `85e3099`), used to check real font overrides in Chromium.

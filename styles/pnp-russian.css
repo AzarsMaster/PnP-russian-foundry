@@ -1,14 +1,15 @@
 /* All changes stay inside this system's localized sheets, dialogs and cards. */
 .pnp-ru-roboto {
-  font-family: 'PnP Roboto', sans-serif;
   --font-primary: 'PnP Roboto', sans-serif;
   --font-body: 'PnP Roboto', sans-serif;
   --font-header: 'PnP Roboto', sans-serif;
 }
 
-.pnp-ru-roboto :is(h1, h2, h3, h4, h5, h6, label, input, select, option,
-  optgroup, button, a, p, li, b, strong, em, legend, summary, th, td,
-  .resource-label, .dice-total, .dice-flavor, .part-flavor, .window-title) {
+/* The system sets Bangers/Roboto Condensed on containers such as .items-header,
+   .item-prop and .editor as well as individual controls. Cover all text nodes'
+   elements, including those containers, while preserving icon font classes. */
+.pnp-ru-roboto,
+.pnp-ru-roboto :where(*):not(i, svg, path, .fa, .fas, .far, .fal, .fab, .fad, .fat, .fass, [class*='fa-']) {
   font-family: 'PnP Roboto', sans-serif !important;
 }
 

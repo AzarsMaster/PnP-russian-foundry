@@ -12,7 +12,7 @@ await mkdir(dist, { recursive: true });
 await rm(stage, { recursive: true, force: true });
 await mkdir(stage);
 // Explicit runtime allowlist: no node_modules, tests, credentials or dev scripts.
-for (const file of ['module.json', 'lang', 'styles', 'fonts', 'README.md', 'LICENSE', 'THIRD_PARTY.md']) {
+for (const file of ['module.json', 'lang', 'styles', 'fonts', 'README.md', 'CHANGELOG.md', 'LICENSE', 'THIRD_PARTY.md']) {
   await cp(path.join(root, file), path.join(stage, file), { recursive: true });
 }
 await mkdir(path.join(stage, 'scripts'));

@@ -13,7 +13,7 @@ assert.equal(manifest.version, pkg.version);
 assert.equal(manifest.compatibility.minimum, '13');
 assert.equal(manifest.relationships.systems[0].id, 'prowlers-and-paragons');
 for (const file of [...manifest.esmodules, ...manifest.styles,
-  ...manifest.languages.map(l => l.path), manifest.license, manifest.readme]) {
+  ...manifest.languages.map(l => l.path), manifest.license, manifest.readme, manifest.changelog]) {
   await access(path.join(root, file));
 }
 await readJSON('lang/ru.json');

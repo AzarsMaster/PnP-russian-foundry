@@ -72,7 +72,7 @@ function isWaitingText(text) {
 
 /** Call only for this system's Actor/Item sheet, when Russian is selected. */
 export function localizeSheet(root) {
-  labels(root, '.sheet-tabs > a[data-tab], .abilities > h3, .sheet-body .main > h3, .sheet-body .tab > h3');
+  labels(root, '.sheet-tabs > a[data-tab], .abilities > h3, .sheet-body .main > h3, .sheet-body .tab > h3, .tab.options > div > h3');
   for (const element of elements(root, 'label.resource-label, .biography > label')) {
     if (element.closest('[data-item-id], [data-effect-id]')) continue;
     directText(element, exact);

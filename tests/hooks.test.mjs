@@ -1,13 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import { render, difficulty, localize } from './helpers.mjs';
+import { render, difficulty, localize, characterContext } from './helpers.mjs';
 
 let imports = 0;
-async function runtime(t, { generation = 14, lang = 'ru', system = 'prowlers-and-paragons' } = {}) {
+async function runtime(t, { generation = 14, lang = 'ru', system = 'prowlers-and-paragons', autoReady = true } = {}) {
   const dom = new JSDOM('<!doctype html><html><body></body></html>');
   const { window } = dom;
   const callbacks = new Map();
+  globalThis.document = window.document;
+  globalThis.window = window;
+  globalThis.ui = { windows: {} };
+  globalThis.foundry = { applications: { instances: new Map() } };
   globalThis.MutationObserver = window.MutationObserver;
   globalThis.Hooks = {
     on(name, callback) {
@@ -46,7 +50,7 @@ async function runtime(t, { generation = 14, lang = 'ru', system = 'prowlers-and
   });
   await import(`../scripts/main.mjs?hooks-test=${++imports}`);
   fire('init');
-  fire('ready');
+  if (autoReady) fire('ready');
   const roots = [];
   t.after(() => {
     for (const root of roots) fire('closeApplication', {}, root);
@@ -63,6 +67,119 @@ async function runtime(t, { generation = 14, lang = 'ru', system = 'prowlers-and
     }
   };
 }
+
+for (const generation of [13, 14]) {
+  for (const [hook, template, context] of [
+    ['renderProwlersParagonsActorSheet', 'actor/actor-character-sheet.hbs', characterContext],
+    ['renderProwlersParagonsItemSheet', 'item/item-power-sheet.hbs', () => ({
+      cssClass: 'prowlers-and-paragons', item: { name: 'Powers' }, effects: [],
+      enrichedDescription: '<h3>Powers</h3><p>Gear and Might</p>',
+      system: { rank_type: 'power', rank: 4, baseline_scaling_options: {}, charges: {} }
+    })],
+    ['renderProwlersParagonsGMSheet', 'actor/actor-gm-sheet.hbs', () => ({
+      cssClass: 'prowlers-and-paragons', system: { adversity: 4 },
+      config: { talents: {}, adversity_spend_options: [] }, characters: []
+    })]
+  ]) {
+    test(`Foundry ${generation} concrete ${hook} works without a generic hook or app options metadata`, async t => {
+      const r = await runtime(t, { generation });
+      const wrapper = r.root(render(template, context()));
+      // Foundry's concrete hook can receive a jQuery form or HTMLElement rather
+      // than the same wrapper used by generic Application render callbacks.
+      const form = wrapper.querySelector('form');
+      const app = { options: {}, element: generation === 13 ? { 0: wrapper } : wrapper };
+      r.fire(hook, app, generation === 13 ? { 0: form } : form);
+      const decorated = form.closest('.pnp-ru-roboto');
+      assert.ok(decorated, 'Specific sheet hook must enable Roboto on the rendered sheet or its ancestor');
+      if (hook.includes('GMSheet')) {
+        assert.match(form.querySelector('.sheet-header').textContent, /Невзгоды/);
+      } else {
+        const tab = form.querySelector('.sheet-tabs > a[data-tab="powers"], .sheet-tabs > a[data-tab="description"]');
+        assert.ok(['Силы', 'Описание'].includes(tab.textContent.trim()), 'Hardcoded tab text must be localized');
+        assert.equal(form.querySelector('.editor h3').textContent, 'Powers', 'User description must remain untouched');
+      }
+    });
+  }
+}
+
+test('system class in actual DOM identifies a sheet when app metadata omits options.classes and template', async t => {
+  const r = await runtime(t);
+  const root = r.root(render('actor/actor-character-sheet.hbs', characterContext()));
+  r.fire('renderApplication', { options: {}, element: root }, root);
+  assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+  assert.ok(root.querySelector('form').closest('.pnp-ru-roboto'));
+  assert.equal(root.querySelector('.editor h3').textContent, 'Powers');
+});
+
+test('app.element wrapper identifies the system sheet when hook html contains only window content', async t => {
+  const r = await runtime(t);
+  const context = characterContext();
+  context.cssClass = '';
+  const wrapper = r.root(`<header class="window-header"><h4 class="window-title">Armor</h4></header><section class="window-content">${render('actor/actor-character-sheet.hbs', context)}</section>`);
+  wrapper.className = 'app window-app prowlers-and-paragons sheet actor';
+  const content = wrapper.querySelector('.window-content');
+  r.fire('renderApplication', { options: {}, element: { 0: wrapper } }, { 0: content });
+  assert.equal(content.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+  assert.ok(wrapper.classList.contains('pnp-ru-roboto'), 'Font class must cover the application wrapper and title');
+  assert.equal(wrapper.querySelector('.window-title').textContent, 'Armor');
+  assert.equal(content.querySelector('.editor h3').textContent, 'Powers');
+});
+
+test('rerender after replacing the sheet content localizes newly inserted tabs and retains Roboto', async t => {
+  const r = await runtime(t);
+  const root = r.root(render('actor/actor-character-sheet.hbs', characterContext()));
+  const app = { options: {}, element: { 0: root } };
+  r.fire('renderProwlersParagonsActorSheet', app, { 0: root.querySelector('form') });
+  const first = root.querySelector('form');
+  root.innerHTML = render('actor/actor-character-sheet.hbs', characterContext());
+  assert.notEqual(root.querySelector('form'), first);
+  r.fire('renderProwlersParagonsActorSheet', app, { 0: root.querySelector('form') });
+  const form = root.querySelector('form');
+  assert.equal(form.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+  assert.ok(form.closest('.pnp-ru-roboto'));
+  form.querySelector('.sheet-tabs [data-tab="gear"]').textContent = 'Gear';
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(form.querySelector('.sheet-tabs [data-tab="gear"]').textContent, 'Снаряжение');
+});
+
+for (const registry of ['ui.windows', 'foundry.applications.instances']) {
+  test(`ready localizes an already-open system sheet from ${registry}`, async t => {
+    const r = await runtime(t, { autoReady: false });
+    const wrapper = r.root(render('actor/actor-character-sheet.hbs', characterContext()));
+    const app = { options: {}, element: registry === 'ui.windows' ? { 0: wrapper } : wrapper, rendered: true };
+    if (registry === 'ui.windows') ui.windows.openSheet = app;
+    else foundry.applications.instances.set('openSheet', app);
+    assert.equal(wrapper.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Powers');
+    r.fire('ready');
+    assert.equal(wrapper.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+    assert.ok(wrapper.querySelector('form').closest('.pnp-ru-roboto'));
+    assert.equal(wrapper.querySelector('input[name="name"]').value, 'Armor');
+    assert.equal(wrapper.querySelector('.editor h3').textContent, 'Powers');
+  });
+}
+
+test('a newly attached system window is localized when its renderer dispatches no application hooks', async t => {
+  const r = await runtime(t);
+  const root = r.root(render('actor/actor-character-sheet.hbs', characterContext()));
+  assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Powers');
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+  assert.ok(root.querySelector('form').closest('.pnp-ru-roboto'));
+  assert.equal(root.querySelector('.editor h3').textContent, 'Powers');
+});
+
+test('window attachment fallback handles a shell inserted before its unclassified inner form', async t => {
+  const r = await runtime(t);
+  const root = r.root('');
+  root.className = 'app window-app prowlers-and-paragons sheet actor';
+  await new Promise(resolve => setTimeout(resolve, 0));
+  const context = characterContext();
+  context.cssClass = '';
+  root.innerHTML = render('actor/actor-character-sheet.hbs', context);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
+  assert.ok(root.classList.contains('pnp-ru-roboto'));
+});
 
 for (const generation of [13, 14]) {
   test(`Foundry ${generation} render hooks translate sheets and DialogV2, preserving callbacks and documents`, async t => {

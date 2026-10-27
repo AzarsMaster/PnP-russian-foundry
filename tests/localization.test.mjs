@@ -35,6 +35,7 @@ test('actual character sheet translates navigation and column headers while pres
   assert.equal(root.querySelector('[data-tab="play"]').textContent, 'Игра');
   assert.equal(root.querySelector('[data-tab="powers"]').textContent, 'Силы');
   assert.equal(root.querySelector('[data-tab="gear"]').textContent, 'Снаряжение');
+  assert.equal(root.querySelector('.tab.options > div > h3').textContent, 'Настройки');
   assert.match(words(root.querySelector('.abilities')), /Способности.*Ловкость/);
   assert.match(words(root.querySelector('.items-header')), /Имя.*Итоговый Ранг/);
   assert.equal(root.querySelector('input[name="name"]').value, 'Armor');

@@ -1,0 +1,905 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:wght@400;700&display=swap');
+
+/* Global styles */
+.window-app {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+:root {
+  --primary-color: #e63946;
+  --secondary-color: #1d3557;
+  --accent-color: #e9e7e0;
+  --text-color: #1d3557;
+  --border-color: #457b9d;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+.prowlers-and-paragons .sheet-header {
+  background: var(--secondary-color);
+  color: var(--accent-color);
+  /* border: 3px solid var(--primary-color); */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  padding: 10px;
+  margin-bottom: 15px;
+  flex: 0 0 auto;
+}
+
+.prowlers-and-paragons .sheet-header h1.charname {
+  font-family: "Bangers", cursive;
+  font-size: 2.5em;
+  color: var(--accent-color);
+  text-shadow: 2px 2px 0 var(--primary-color);
+  letter-spacing: 1px;
+}
+
+.prowlers-and-paragons .sheet-header h1.charname input {
+  font-family: "Bangers", cursive;
+  font-size: 1em;
+  color: var(--secondary-color);
+  text-shadow: 2px 2px 0 var(--primary-color);
+}
+
+.prowlers-and-paragons .sheet-tabs {
+  border-bottom: 3px solid var(--primary-color);
+  margin-bottom: 2px;
+}
+
+.prowlers-and-paragons .sheet-tabs .item {
+  font-family: "Bangers", cursive;
+  font-size: 1.2em;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.prowlers-and-paragons .sheet-tabs .item:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons .sheet-tabs .item.active {
+  color: var(--accent-color);
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  text-shadow: 2px 2px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons .resources .resource-label {
+  font-family: "Bangers", cursive;
+  font-size: 1.2em;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.prowlers-and-paragons .resource-label {
+  font-family: "Bangers", cursive;
+  font-size: 1.2em;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.prowlers-and-paragons .items-header {
+  background: var(--primary-color);
+  /* color: var(--accent-color); */
+  border: 2px solid var(--secondary-color);
+  border-radius: 4px;
+  font-family: "Bangers", cursive;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 0;
+  margin: 0 0 4px 0;
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons .items-list .item {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin: 2px 0;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+.prowlers-and-paragons .items-list .item:hover {
+  background: var(--accent-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.prowlers-and-paragons .rollable:hover {
+  color: var(--primary-color);
+  text-shadow: 1px 1px 0 var(--shadow-color);
+  cursor: pointer;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2/span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.grid-3col {
+  grid-column: span 3/span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4/span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5/span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 6/span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7/span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8/span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9/span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10/span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11/span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12/span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.grid-start-2 {
+  grid-column-start: 2;
+}
+
+.grid-start-3 {
+  grid-column-start: 3;
+}
+
+.grid-start-4 {
+  grid-column-start: 4;
+}
+
+.grid-start-5 {
+  grid-column-start: 5;
+}
+
+.grid-start-6 {
+  grid-column-start: 6;
+}
+
+.grid-start-7 {
+  grid-column-start: 7;
+}
+
+.grid-start-8 {
+  grid-column-start: 8;
+}
+
+.grid-start-9 {
+  grid-column-start: 9;
+}
+
+.grid-start-10 {
+  grid-column-start: 10;
+}
+
+.grid-start-11 {
+  grid-column-start: 11;
+}
+
+.grid-start-12 {
+  grid-column-start: 12;
+}
+
+.grid-span-2 {
+  grid-column-end: span 2;
+}
+
+.grid-span-3 {
+  grid-column-end: span 3;
+}
+
+.grid-span-4 {
+  grid-column-end: span 4;
+}
+
+.grid-span-5 {
+  grid-column-end: span 5;
+}
+
+.grid-span-6 {
+  grid-column-end: span 6;
+}
+
+.grid-span-7 {
+  grid-column-end: span 7;
+}
+
+.grid-span-8 {
+  grid-column-end: span 8;
+}
+
+.grid-span-9 {
+  grid-column-end: span 9;
+}
+
+.grid-span-10 {
+  grid-column-end: span 10;
+}
+
+.grid-span-11 {
+  grid-column-end: span 11;
+}
+
+.grid-span-12 {
+  grid-column-end: span 12;
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.flex-group-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flexshrink {
+  flex: 0;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.flexlarge {
+  flex: 2;
+}
+
+.align-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.align-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.align-center {
+  justify-content: center;
+  text-align: center;
+}
+
+/* Styles limited to prowlers-and-paragons sheets */
+.prowlers-and-paragons .item-form {
+  font-family: "Roboto", sans-serif;
+}
+
+.prowlers-and-paragons .sheet-tabs {
+  flex: 0;
+}
+
+.prowlers-and-paragons .sheet-body,
+.prowlers-and-paragons .sheet-body .tab,
+.prowlers-and-paragons .sheet-body .tab .editor {
+  height: 100%;
+}
+
+.prowlers-and-paragons .tox .tox-editor-container {
+  background: #fff;
+}
+
+.prowlers-and-paragons .tox .tox-edit-area {
+  padding: 0 8px;
+}
+
+.prowlers-and-paragons .items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  color: #444;
+  overflow: hidden;
+}
+
+.prowlers-and-paragons .items-list .item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.prowlers-and-paragons .items-list .item-name {
+  flex: 3;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  text-align: left;
+  align-items: center;
+  display: flex;
+}
+
+.prowlers-and-paragons .items-list .item-name h3,
+.prowlers-and-paragons .items-list .item-name h4 {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prowlers-and-paragons .items-list .item-controls {
+  display: flex;
+  flex: 0 0 100px;
+  justify-content: flex-end;
+}
+
+.prowlers-and-paragons .items-list .item-controls a {
+  font-size: 12px;
+  text-align: center;
+  margin: 0 6px;
+}
+
+.prowlers-and-paragons .items-list .item .item-name {
+  color: #191813;
+}
+
+.prowlers-and-paragons .items-list .item .item-name .item-image {
+  flex: 0 0 30px;
+  height: 30px;
+  background-size: 30px;
+  border: none;
+  margin-right: 5px;
+}
+
+.prowlers-and-paragons .item .no-left-border {
+  border-left: none !important;
+}
+
+.prowlers-and-paragons .items-list .item-prop {
+  text-align: center;
+  border-left: 1px solid #c9c7b8;
+  border-right: 1px solid #c9c7b8;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prowlers-and-paragons .items-list .item-prop.flexrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.prowlers-and-paragons .items-list .item-prop .currentCharges {
+  width: 40px;
+  text-align: center;
+}
+
+.prowlers-and-paragons .items-list .item-prop .reset-charges {
+  width: 20px;
+  height: 20px;
+  line-height: 1;
+  padding: 0;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.prowlers-and-paragons .items-list .items-header {
+  height: 28px;
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px groove #eeede0;
+  font-weight: bold;
+}
+
+.prowlers-and-paragons .items-list .items-header>* {
+  font-size: 12px;
+  text-align: center;
+}
+
+.prowlers-and-paragons .items-list .items-header .item-name {
+  padding-left: 5px;
+  text-align: left;
+}
+
+.prowlers-and-paragons .item-formula {
+  padding: 0 8px;
+}
+
+.prowlers-and-paragons .effects .item .effect-source,
+.prowlers-and-paragons .effects .item .effect-duration,
+.prowlers-and-paragons .effects .item .effect-controls {
+  text-align: center;
+  border-left: 1px solid #c9c7b8;
+  border-right: 1px solid #c9c7b8;
+  font-size: 12px;
+}
+
+.prowlers-and-paragons .effects .item .effect-controls {
+  border: none;
+}
+
+.prowlers-and-paragons .top-spacing {
+  margin-top: 10px;
+}
+
+.prowlers-and-paragons .spent-hero-points,
+.prowlers-and-paragons .earned-hero-points {
+  font-weight: bold;
+  margin-top: auto;
+}
+
+.prowlers-and-paragons .flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.prowlers-and-paragons .biography .editor {
+  min-height: 50px;
+}
+
+.prowlers-and-paragons .prosemirror .editor-container .editor-content {
+  position: relative
+}
+
+.opposed-roll {
+  order: 3
+}
+
+.prowlers-and-paragons .target-display {
+  margin-left: 1em;
+  color: #4a4a4a;
+  font-style: italic;
+}
+
+.prowlers-and-paragons .clear-target {
+  margin-left: 0.5em;
+  color: #4a4a4a;
+  opacity: 0.7;
+}
+
+.prowlers-and-paragons .clear-target:hover {
+  opacity: 1;
+  color: #ff0000;
+}
+
+/* Form Elements */
+.prowlers-and-paragons input[type="text"],
+.prowlers-and-paragons input[type="number"],
+.prowlers-and-paragons select,
+.prowlers-and-paragons .editor {
+  background: var(--accent-color);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: "Roboto Condensed", sans-serif;
+  transition: all 0.2s ease;
+}
+
+.prowlers-and-paragons input[type="text"]:focus,
+.prowlers-and-paragons input[type="number"]:focus,
+.prowlers-and-paragons select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px var(--primary-color);
+  outline: none;
+}
+
+.prowlers-and-paragons button {
+  background: var(--primary-color);
+  color: var(--accent-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: "Bangers", cursive;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.prowlers-and-paragons button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Special button styles */
+.prowlers-and-paragons .item-controls a {
+  color: var(--secondary-color);
+  transition: all 0.2s ease;
+}
+
+.prowlers-and-paragons .item-controls a:hover {
+  color: var(--primary-color);
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons .item-controls a.item-delete {
+  color: var(--primary-color);
+}
+
+.prowlers-and-paragons .item-controls a.item-delete:hover {
+  color: #d00000;
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+/* Comic Book Effects */
+@keyframes comicPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes comicShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+.prowlers-and-paragons .item:hover {
+  animation: comicPop 0.3s ease;
+}
+
+.prowlers-and-paragons .rollable:hover {
+  animation: comicShake 0.3s ease;
+}
+
+/* Comic Book Borders */
+.prowlers-and-paragons .window-content {
+  background: var(--accent-color);
+  border: 4px solid var(--secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.prowlers-and-paragons .items-list {
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Comic Book Text Effects */
+.prowlers-and-paragons .item-name {
+  font-family: "Bangers", cursive;
+  font-size: 1.2em;
+  color: var(--secondary-color);
+  text-shadow: 1px 1px 0 var(--shadow-color);
+}
+
+.prowlers-and-paragons .item-prop {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Comic Book Card Effect */
+.prowlers-and-paragons .item {
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.prowlers-and-paragons .item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 2. Hero Name Input Contrast */
+.prowlers-and-paragons .sheet-header h1.charname input {
+  background: var(--accent-color);
+  color: var(--secondary-color);
+  border: 2px solid var(--accent-color);
+  text-shadow: none;
+}
+
+/* 3. Reduce space between tab names and content */
+.prowlers-and-paragons .sheet-body > .tab {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Remove extra margin from h3 in tab content */
+.prowlers-and-paragons .sheet-body .tab h3 {
+  margin-top: 0.5em;
+}
+
+.spend-resolve-menu-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.spend-resolve-btn {
+  background: var(--primary-color);
+  color: var(--accent-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: 6px;
+  font-family: "Bangers", cursive;
+  font-size: 1.1em;
+  padding: 8px 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow-color);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.spend-resolve-btn:hover {
+  background: var(--secondary-color);
+  color: var(--accent-color);
+  box-shadow: 4px 4px 0 var(--primary-color);
+}
+
+.spend-resolve-dropdown {
+  display: none;
+  position: absolute;
+  left: auto;
+  right: 0;
+  top: 110%;
+  min-width: 220px;
+  background: var(--accent-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px var(--shadow-color);
+  z-index: 1000;
+  font-family: "Bangers", cursive;
+  padding: 8px 0;
+}
+
+.spend-resolve-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.spend-resolve-dropdown li {
+  position: relative;
+}
+
+.spend-resolve-dropdown a.spend-resolve-option {
+  display: block;
+  padding: 8px 18px;
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1.05em;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+}
+
+.spend-resolve-dropdown a.spend-resolve-option:hover,
+.spend-resolve-dropdown a.spend-resolve-option:focus {
+  background: var(--primary-color);
+  color: var(--accent-color);
+}
+
+.spend-resolve-submenu {
+  position: relative;
+}
+
+.prowlers-and-paragons .spend-resolve-submenu-list {
+  display: none;
+  position: absolute;
+  left: auto;
+  right: 100%;
+  top: 0;
+  min-width: 220px;
+  background: var(--accent-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px var(--shadow-color);
+  z-index: 1100;
+  padding: 8px 0;
+}
+
+.spend-resolve-submenu-list a.spend-resolve-option {
+  padding-left: 24px;
+}
+
+.dice-roll .narrative-control {
+  font-size: 14px;
+  color: var(--color-text-dark-secondary);
+  word-break: break-word;
+}
+
+.prosemirror .editor-menu {
+  background: var(--secondary-color);
+}
+
+.prosemirror span,
+.prosemirror .fa-table {
+  color: var(--text-color);
+}
+
+.apply-damage-menu-container,
+.apply-condition-menu-container {
+  position: relative; /* Allows dropdown to position absolutely relative to this container */
+  order: 2
+}
+
+.apply-damage-btn,
+.apply-condition-btn {
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.apply-damage-dropdown,
+.apply-condition-dropdown {
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: 0;
+  background: var(--accent-color);
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: none;
+  min-width: 150px;
+  border: 3px solid var(--primary-color);
+  border-radius: 8px;
+  
+}
+
+.apply-damage-dropdown ul,
+.apply-condition-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.apply-damage-dropdown li,
+.apply-condition-dropdown li {
+  padding: 8px 10px;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+}
+
+.apply-damage-dropdown .apply-damage-option:hover,
+.apply-damage-dropdown .apply-damage-option:focus,
+.apply-condition-dropdown .apply-condition-option:hover,
+.apply-condition-dropdown .apply-condition-option:focus {
+  background: var(--primary-color);
+  color: var(--accent-color);
+}
+
+.highlighted-border {
+  border-color: var(--primary-color) !important;
+}
+
+body.game .sheet.app header.sheet-header img {
+  flex: 0 0 200px;
+  height: auto;
+  max-height: 264px;
+  object-fit: contain;
+  margin-right: 6px;
+}
+
+.prowlers-and-paragons .power-description {
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 30px;
+  display: none;
+}
+
+.prowlers-and-paragons .power-description.expanded {
+  max-height: 500px; /* Adjust as needed for maximum possible content */
+  display: block;
+}
+
+.prowlers-and-paragons .power-description-toggle {
+  cursor: pointer;
+  flex: 0 0 20px;
+}
+
+.prowlers-and-paragons .power-description-toggle i {
+  font-size: 16px;
+}
+
+.prowlers-and-paragons .power-pros-cons .section-title {
+  font-family: "Bangers", cursive;
+  font-size: 1em;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+
+.prowlers-and-paragons .power-pros-cons .procon-list {
+  list-style: none;
+}
+
+/* Ensure ability name, optional original value, and current value align consistently */
+.prowlers-and-paragons .abilities .ability {
+  display: grid;
+  grid-template-columns: 1fr 20px 56px;
+  column-gap: 5px;
+  align-items: center;
+}
+
+.prowlers-and-paragons .abilities .ability label {
+  grid-column: 1;
+  justify-self: start;
+  text-align: left;
+}
+
+.prowlers-and-paragons .abilities .ability span {
+  grid-column: 2;
+  justify-self: end;
+  text-align: right;
+  opacity: 0.8;
+}
+
+.prowlers-and-paragons .abilities .ability input[type="text"],
+.prowlers-and-paragons .abilities .ability input[type="number"] {
+  grid-column: 3;
+  width: 56px;
+  text-align: center;
+}
+
+.trait-selection-dialog input[type="radio"] {
+  appearance: auto;
+  -webkit-appearance: radio;
+}
