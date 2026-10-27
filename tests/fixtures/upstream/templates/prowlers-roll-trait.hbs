@@ -1,0 +1,33 @@
+<form>
+  <fieldset>
+    {{> "systems/prowlers-and-paragons/templates/roll/parts/difficulty-section.hbs"}}
+    <br>
+    <div>
+      <label>{{localize "PROWLERS_AND_PARAGONS.Roll.Modifiers"}}
+        <input type="number" name="modifier" value="{{modifier}}" placeholder="0" onClick="this.select();"
+          style="width: 8ch;" />
+      </label>
+      {{#if showMinionOffense}}
+      <br>
+      <input type='checkbox' name='offense' {{checked offense}}> 
+      {{localize "PROWLERS_AND_PARAGONS.Roll.MinionOffense"}}
+      </input>
+      {{/if}}
+      {{#if toughness}}
+      <br>
+      <input type='checkbox' name='halveToughness' {{checked halveToughness}}> 
+      {{localize "PROWLERS_AND_PARAGONS.Roll.HalveToughness"}}
+      </input>
+      {{/if}}
+      {{#if conditionsAffectingRoll}}
+        {{#each conditionsAffectingRoll as |condition|}}
+          <br>
+          <input type='checkbox' name='condition-{{condition.id}}' checked> 
+          {{condition.name}} ({{condition.formattedRollModifierValue}})
+          </input>
+        {{/each}}
+      {{/if}}
+    </div>
+  </fieldset>
+  <br>
+</form>

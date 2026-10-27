@@ -1,0 +1,162 @@
+<form class='{{cssClass}}' autocomplete='off'>
+  <header class='sheet-header'>
+    <img
+      class='profile-img'
+      src='{{item.img}}'
+      data-edit='img'
+      title='{{item.name}}'
+    />
+    <div class='header-fields'>
+      <h1 class='charname'><input
+          name='name'
+          type='text'
+          value='{{item.name}}'
+          placeholder='Name'
+        /></h1>
+    </div>
+  </header>
+
+  {{! Sheet Tab Navigation }}
+  <nav class='sheet-tabs tabs' data-group='primary'>
+    <a class='item' role='tab' data-tab='description'>Description</a>
+    <a class='item' role='tab' data-tab='attributes'>Attributes</a>
+    <a class='item' role='tab' data-tab='effects'>Effects/Pros and Cons</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class='sheet-body'>
+
+    {{! Description Tab }}
+    <div class='tab' data-group='primary' data-tab='description'>
+      {{! Editors must receive enriched text data from getData to properly handle rolls }}
+      {{editor
+        enrichedDescription
+        target='system.description'
+        engine='prosemirror'
+        button=true
+        editable=editable
+      }}
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/prowlers-and-paragons/templates/item/parts/item-effects.hbs"}}
+    </div>
+    
+    {{! Attributes Tab }}
+    <div class='tab attributes' data-group='primary' data-tab='attributes'>
+      {{! As you add new fields, add them in here! }}
+      <div class='resource'>
+         <label class='resource-label'>Short Description</label>
+        <input
+          name='system.shortDescription'
+          type='text'
+          value='{{system.shortDescription}}'
+          placeholder="Text that will show after the power's name"
+        />
+        <label class='resource-label'>Rank</label>
+        {{#unless (eq system.rank_type 'default')}}
+          <input
+            type='text'
+            name='system.rank'
+            value='{{system.rank}}'
+            data-dtype='Number'
+          />
+        {{/unless}}
+        <select name='system.rank_type'>
+        {{selectOptions power_rank_types selected=system.rank_type localize=true}}
+        </select>
+        {{#if (eq system.rank_type 'default')}}
+          <input type='hidden' name='system.rank' value='1' />
+        {{/if}}
+        {{#if (needsConnectedAbility system)}}
+          <select name='system.connected_ability'>
+            <optgroup label="Abilities">
+              {{selectOptions abilities selected=system.connected_ability localize=true}}
+            </optgroup>
+            <optgroup label="Talents">
+              {{selectOptions talents selected=system.connected_ability localize=true}}
+            </optgroup>
+          </select>
+        {{/if}}
+        {{#if (needsBaselineOptions system)}}
+          <input type="checkbox" name='system.baseline_scaling_options.half_rank' {{checked system.baseline_scaling_options.half_rank}}>Half Scaling</input>
+          <input type="checkbox" name='system.baseline_scaling_options.special' {{checked system.baseline_scaling_options.special}}>Special Base Value</input>
+          {{#if system.baseline_scaling_options.special}}
+            <input
+              type='text'
+              name='system.baseline_scaling_options.special_value'
+              value='{{system.baseline_scaling_options.special_value}}'
+              data-dtype='Number'
+            />
+          {{/if}}
+        {{/if}}
+      </div>
+    <div class='resource'>
+        <label class='resource-label'>Source</label>
+        <select name='system.source'>
+        {{selectOptions power_sources selected=system.source localize=true}}
+        </select>
+    </div>
+    <div class='resource'>
+        <label class='resource-label'>Range</label>
+        <select name='system.range'>
+        {{selectOptions power_ranges selected=system.range localize=true}}
+    </select>
+    </div>
+    <div class='resource'>
+        <label class='resource-label'>{{#if (eq system.rank_type 'default')}}Cost{{else}}Cost Per Rank{{/if}}</label>
+         <input
+          type='text'
+          name='system.cost'
+          value='{{system.cost}}'
+          data-dtype='Number'
+        />
+    </div>
+    <div class='resource'>
+        <label class='resource-label'>Allow Non-positive</label>
+        <input type="checkbox" name='system.free' {{checked system.free}}></input>
+    </div>
+    <div style="display: flex; flex-direction: row" class='grid grid-2col'>
+        <label class='resource-label'>Override Cost</label>
+        <input type="checkbox" name='system.override_cost' {{checked system.override_cost}}></input>
+        {{#if system.override_cost}}
+        <label class='resource-label'>Overriden Cost</label>
+          <input
+          type='text'
+          name='system.final_cost'
+          value='{{system.final_cost}}'
+          data-dtype='Number'
+          placeholder="Flat Final Cost"
+          style="width: 300px, margin-left: auto;"
+        />
+        {{/if}}
+    </div>
+    <div class='resource'>
+        <label class='resource-label'>Toggleable</label>
+        <input type="checkbox" name='system.toggleable' {{checked system.toggleable}}></input>
+    </div>
+    <div class='grid grid-2col' style="width:30%;">
+        <label class='resource-label'>Charges</label>
+        <input type="checkbox" name='system.hasCharges' {{checked system.hasCharges}}></input>
+        {{#if system.hasCharges}}
+        <label class='resource-label'>Current</label>
+          <input
+          type='text'
+          name='system.charges.value'
+          value='{{system.charges.value}}'
+          data-dtype='Number'
+          placeholder="Current number of charges"
+        />
+        <label class='resource-label'>Max</label>
+                  <input
+          type='text'
+          name='system.charges.max'
+          value='{{system.charges.max}}'
+          data-dtype='Number'
+          placeholder="Max number of charges"
+        />
+        {{/if}}
+    </div>
+  </section>
+</form>

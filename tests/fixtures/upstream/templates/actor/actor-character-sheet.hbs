@@ -1,0 +1,180 @@
+<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
+      {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+      use both the "grid" and "grid-Ncol" class where "N" can be any number
+      from 1 to 12 and will create that number of columns.  --}}
+      <div class="resources grid grid-3col">
+
+        {{!-- "flex-group-center" is also defined in the _grid.scss file
+        and it will add a small amount of padding, a border, and will
+        center all of its child elements content and text. --}}
+        <div class="resource flex-group-center flex-column">
+          <div>
+           <label for="system.health.value" class="resource-label">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Health"}}</label>
+           <div class="resource-content flexrow flex-center flex-between">
+            <input type="text" name="system.health.value" value="{{system.health.value}}" data-dtype="Number"/>
+            <span style="vertical-align: -webkit-baseline-middle;"><i style="vertical-align: inherit;" class="fas fa-lg fa-slash-forward"></i></span>
+            <input type="text" name="system.health.max" value="{{system.health.max}}" data-dtype="Number"/>
+           </div>
+          </div>
+          <h4 class="spent-hero-points">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.SpentHeroPoints"}}: {{actor.spentHeroPoints}}</h4>
+          <h4 class="earned-hero-points">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.EarnedHeroPoints"}}:
+            <input style="width: 25%;" type="text" name="system.earnedHeroPoints" value="{{system.earnedHeroPoints}}" data-dtype="Number"/>
+            </h4>
+          <h4>{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.TotalHeroPointBudget"}}: {{totalHeroPointBudget}}</h4>
+        </div>
+
+        <div class="resource flex-group-center flex-column">
+          <div class="resource-content flex-column flex-center flex-between">
+            <label for="system.edge.value" class="resource-label">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Edge"}}</label>
+            <input type="text" name="system.edge.value" value="{{system.edge.value}}" data-dtype="Number"/>
+          </div>
+          <button type="button" id="temporary-buffs-button" class="temporary-buffs-btn" style="margin-top: auto;">{{temporaryButtonText}}</button>
+        </div>
+
+        <div class="resource flex-group-center">
+          <label for="system.resolve.value" class="resource-label">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.Label"}}</label>
+          <div class="resource-content flexrow flex-center flex-between">
+
+          <div>
+            <input type="text" name="system.resolve.value" value="{{system.resolve.value}}" data-dtype="Number"/>
+            <label>{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.Current"}}</label>
+          </div>
+
+          <span style="vertical-align: -webkit-baseline-middle;"><i style="vertical-align: inherit;" class="fas fa-lg fa-slash-forward"></i></span>
+          <div>
+          <input type="text" name="system.resolve.starting" value="{{system.resolve.starting}}" data-dtype="Number"/>
+          <label>{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.Starting"}}</label>
+          </div>
+
+          </div>
+
+        <div class="resource flex-group-center">
+          <div class="spend-resolve-menu-container">
+            <button type="button" class="spend-resolve-btn" data-testid="spend-resolve-btn">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.SpendMenu.SpendResolve"}}</button>
+            <div class="spend-resolve-dropdown" style="display: none;">
+              {{> "systems/prowlers-and-paragons/templates/actor/parts/spend-resource-menu.hbs" options=@root.config.resolve_spend_options }}
+            </div>
+          </div>
+          <button class="reset-resolve">{{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.ResetToStarting"}}</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    {{!-- Default tab is specified in actor-sheet.mjs --}}
+    <a class="item" data-tab="play" role="tab" data-testid="play-tab">Play</a>
+    <a class="item" data-tab="biography" role="tab" data-testid="biography-tab">Biography</a>
+    <a class="item" data-tab="powers" role="tab" data-testid="powers-tab">Powers</a>
+    <a class="item" data-tab="gear" role="tab" data-testid="gear-tab">Gear</a>
+    <a class="item" data-tab="package" role="tab" data-testid="package-tab">Package</a>
+    <a class="item" data-tab="options" role="tab" data-testid="options-tab">options</a>
+    <a class="item" data-tab="effects" role="tab" data-testid="effects-tab">Effects</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Play Tab --}}
+    <div class="tab features" data-group="primary" data-tab="play">
+      <section class="grid grid-3col">
+        <aside class="sidebar">
+
+          {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
+          use both the "grid" and "grid-Ncol" class where "N" can be any number
+          from 1 to 12 and will create that number of columns.  --}}
+
+          <div class="abilities flexcol">
+            <h3>Abilities</h3>
+            {{#each system.abilities as |ability key|}}
+            <div class="ability flexrow flex-group-center">
+              <label for="system.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-key="system.abilities.{{key}}.value" data-label="{{localize (lookup @root.config.abilities key)}}">{{localize (lookup @root.config.abilities key)}}</label>
+              {{#if (ne (lookup (lookup @root.actor.system._source.abilities key) "value") ability.value)}}
+                <span>{{lookup (lookup @root.actor.system._source.abilities key) "value"}}</span>
+              {{/if}}
+              <input type="text" name="system.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number" {{#if (ne (lookup (lookup @root.actor.system._source.abilities key) "value") ability.value)}}class="highlighted-border"{{/if}}>
+
+            </div>
+            {{/each}}
+          </div>
+
+           <div class="abilities flexcol">
+            <h3>Talents</h3>
+            {{#each system.talents as |talent key|}}
+            <div class="ability flexrow flex-group-center">
+              <label for="system.talents.{{key}}.value" class="resource-label rollable flexlarge align-left" data-key="system.talents.{{key}}.value" data-label="{{localize (lookup @root.config.talents key)}}">{{localize (lookup @root.config.talents key)}}</label>
+              {{#if (ne (lookup (lookup @root.actor.system._source.talents key) "value") talent.value)}}
+                <span>{{lookup (lookup @root.actor.system._source.talents key) "value"}}</span>
+              {{/if}}
+              <input type="text" name="system.talents.{{key}}.value" value="{{talent.value}}" data-dtype="Number" {{#if (ne (lookup (lookup @root.actor.system._source.talents key) "value") talent.value)}}class="highlighted-border"{{/if}}>
+            </div>
+            {{/each}}
+          </div>
+        </aside>
+
+        {{!-- For the main features list, span the right two columns --}}
+        <section class="main grid-span-2">
+          {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
+          <h3>Powers
+            {{#if (getCurrentTarget)}}
+              <span class="target-display">Target: {{getCurrentTarget}}</span>
+              <a class="clear-target" title="Clear Target"><i class="fas fa-times"></i></a>
+            {{/if}}
+          </h3>
+          {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-powers-play.hbs"}}
+          <h3>Gear</h3>
+          {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-gear-play.hbs"}}
+          {{!-- {{ "systems/prowlers-and-paragons/templates/actor/parts/actor-powers.hbs"}} --}}
+        </section>
+
+      </section>
+    </div>
+
+    {{!-- Biography Tab --}}
+    <div class="tab biography" data-group="primary" data-tab="biography">
+      {{!-- Editors must receive enriched text data from getData to properly handle rolls --}}
+      <h3>Perks</h3>
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-perks.hbs"}}
+      <h3>Flaws</h3>
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-flaws.hbs"}}
+      <h3 class="top-spacing">Biography</h3>
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-biography.hbs"}}
+    </div>
+
+    {{!-- Owned Powers Tab --}}
+    <div class="tab powers" data-group="primary" data-tab="powers">
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-powers.hbs"}}
+    </div>
+
+    {{!-- Gear Tab --}}
+    <div class="tab gear" data-group="primary" data-tab="gear">
+       {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-gear.hbs"}}
+    </div>
+
+    {{!-- Package Tab --}}
+    <div class="tab package" data-group="primary" data-tab="package">
+      <h3>Currently selected package: {{localize (lookup @root.config.packages system.package_applied)}}</h3>
+      <button class="apply-package flexlarge align-left" data-package="superhero">{{localize "PROWLERS_AND_PARAGONS.Packages.superhero"}}</button>
+      <button class="apply-package flexlarge align-left" data-package="hero">{{localize "PROWLERS_AND_PARAGONS.Packages.hero"}}</button>
+      <button class="apply-package flexlarge align-left" data-package="civilian">{{localize "PROWLERS_AND_PARAGONS.Packages.civilian"}}</button>
+      <button class="apply-package flexlarge align-left" data-package="clear">{{localize "PROWLERS_AND_PARAGONS.Packages.clear"}}</button>
+    </div>
+        {{!-- Options Tab --}}
+    <div class="tab options" data-group="primary" data-tab="options">
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-options.hbs"}}
+    </div>
+
+  {{! -- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+      {{> "systems/prowlers-and-paragons/templates/actor/parts/actor-effects.hbs"}}
+    </div>
+  </section>
+</form>

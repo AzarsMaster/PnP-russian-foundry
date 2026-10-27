@@ -1,0 +1,22 @@
+/* All changes stay inside this system's localized sheets, dialogs and cards. */
+.pnp-ru-roboto {
+  font-family: 'PnP Roboto', sans-serif;
+  --font-primary: 'PnP Roboto', sans-serif;
+  --font-body: 'PnP Roboto', sans-serif;
+  --font-header: 'PnP Roboto', sans-serif;
+}
+
+.pnp-ru-roboto :is(h1, h2, h3, h4, h5, h6, label, input, select, option,
+  optgroup, button, a, p, li, b, strong, em, legend, summary, th, td,
+  .resource-label, .dice-total, .dice-flavor, .part-flavor, .window-title) {
+  font-family: 'PnP Roboto', sans-serif !important;
+}
+
+/* Let Russian labels wrap instead of clipping the system's fixed-height rows. */
+.pnp-ru .sheet-tabs { flex-wrap: wrap; height: auto; min-height: 32px; }
+.pnp-ru .sheet-tabs > a { padding-inline: 6px; }
+.pnp-ru .resource-label { white-space: normal; overflow-wrap: anywhere; }
+.pnp-ru .dialog-buttons button,
+.pnp-ru .apply-damage-menu-container button { white-space: normal; height: auto; min-height: 28px; }
+.pnp-ru .spent-hero-points,
+.pnp-ru .earned-hero-points { font-size: 0.85em; }

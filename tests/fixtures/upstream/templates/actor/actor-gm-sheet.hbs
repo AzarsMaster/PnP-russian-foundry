@@ -1,0 +1,49 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <h1>{{localize "TYPES.Actor.gm-sheet"}}</h1>
+    <div>
+      <label>{{localize "PROWLERS_AND_PARAGONS.GM.Adversity"}}:</label>
+      <input type="number" name="system.adversity" value="{{system.adversity}}" min="0"/>
+      <div class="spend-resolve-menu-container">
+        <button type="button" class="spend-resolve-btn">{{localize "PROWLERS_AND_PARAGONS.GM.SpendAdversity"}}</button>
+        <div class="spend-resolve-dropdown" style="display: none;">
+          {{> "systems/prowlers-and-paragons/templates/actor/parts/spend-resource-menu.hbs" options=@root.config.adversity_spend_options }}
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="sheet-body">
+    <h2>{{localize "PROWLERS_AND_PARAGONS.GM.Characters"}}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          {{#each characters as |char|}}
+            <th>{{char.name}}                 <a class="remove-character" data-char-id="{{char.id}}" title="{{localize 'DOCUMENT.Delete'}}">
+                  <i class="fas fa-trash"></i>
+                </a></th>
+          {{/each}}
+        </tr>
+        <tr>
+          <th></th>
+          {{#each characters as |char|}}
+            <th>
+                {{localize "PROWLERS_AND_PARAGONS.DerivedCharacteristics.Resolve.Label"}} {{char.system.resolve.value}}
+              <button type="button" class="award-resolve" data-char-id="{{char.id}}">{{localize "PROWLERS_AND_PARAGONS.GM.AwardResolve"}}</button>
+            </th>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each config.talents as |talentLabel talentKey|}}
+          <tr>
+            <th>{{localize (concat "PROWLERS_AND_PARAGONS.Talent." talentKey)}}</th>
+            {{#each ../characters as |char|}}
+              <td class="align-center">{{lookup (lookup char.system.talents talentKey) "value"}}</td>
+            {{/each}}
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+</form> 

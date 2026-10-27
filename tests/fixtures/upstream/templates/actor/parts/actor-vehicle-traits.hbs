@@ -1,0 +1,116 @@
+<div class="grid grid-4col">
+  {{! "flex-group-center" is also defined in the _grid.scss file
+        and it will add a small amount of padding, a border, and will
+        center all of its child elements content and text. }}
+  <div class="resource flex-group-center">
+    <label for="system.body" class="resource-label rollable" data-key="system.body" data-label="Body">
+      Body
+    </label>
+    <div class="resource-content flexrow flex-center flex-between">
+      <input
+        type="text"
+        name="system.body"
+        value="{{system.body}}"
+        data-dtype="Number"
+      />
+    </div>
+  </div>
+
+  <div>
+    <div class="resource flex-group-center">
+      <label for="system.speed.land" class="resource-label rollable" data-key="system.speed.land" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.land'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.land'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.speed.land"
+          value="{{system.speed.land}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+    <div class="resource flex-group-center">
+      <label for="system.speed.air" class="resource-label rollable" data-key="system.speed.air" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.air'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.air'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.speed.air"
+          value="{{system.speed.air}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+    <div class="resource flex-group-center">
+      <label for="system.speed.sea" class="resource-label rollable" data-key="system.speed.sea" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.sea'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.speed.sea'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.speed.sea"
+          value="{{system.speed.sea}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="resource flex-group-center">
+      <label for="system.control.land"  class="resource-label rollable" data-key="system.control.land" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.land'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.land'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.control.land"
+          value="{{system.control.land}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+        <div class="resource flex-group-center">
+      <label for="system.control.air"  class="resource-label rollable" data-key="system.control.air" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.air'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.air'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.control.air"
+          value="{{system.control.air}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+        <div class="resource flex-group-center">
+      <label for="system.control.sea"  class="resource-label rollable" data-key="system.control.sea" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.sea'}}">
+        {{localize 'PROWLERS_AND_PARAGONS.Vehicle.control.sea'}}
+      </label>
+      <div class="resource-content flexrow flex-center flex-between">
+        <input
+          type="text"
+          name="system.control.sea"
+          value="{{system.control.sea}}"
+          data-dtype="Number"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="resource flex-group-center">
+    <label for="system.weapons"  class="resource-label rollable" data-key="system.weapons" data-label="{{localize 'PROWLERS_AND_PARAGONS.Vehicle.weapons'}}">
+      {{localize 'PROWLERS_AND_PARAGONS.Vehicle.weapons'}}
+    </label>
+    <div class="resource-content flexrow flex-center flex-between">
+      <input
+        type="text"
+        name="system.weapons"
+        value="{{system.weapons}}"
+        data-dtype="Number"
+      />
+    </div>
+  </div>
+</div>

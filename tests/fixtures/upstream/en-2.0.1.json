@@ -1,0 +1,209 @@
+{
+  "PROWLERS_AND_PARAGONS": {
+    "Ability": {
+      "Agi": { "long": "Agility", "abbr": "agi" },
+      "Int": { "long": "Intellect", "abbr": "int" },
+      "Mgt": { "long": "Might", "abbr": "mgt" },
+      "Per": { "long": "Perception", "abbr": "per" },
+      "Tgh": { "long": "Toughness", "abbr": "tgh" },
+      "Wil": { "long": "Willpower", "abbr": "wil" }
+    },
+    "Talent": {
+      "academics": "Academics",
+      "charm": "Charm",
+      "command": "Command",
+      "covert": "Covert",
+      "investigation": "Investigation",
+      "medicine": "Medicine",
+      "professional": "Professional",
+      "science": "Science",
+      "streetwise": "Streetwise",
+      "survival": "Survival",
+      "technology": "Technology",
+      "vehicles": "Vehicles"
+    },
+    "Vehicle": {
+      "body": "Body",
+      "speed": {
+        "land": "Land Speed",
+        "air": "Air Speed",
+        "sea": "Sea Speed"
+      },
+      "control": {
+        "land": "Land Control",
+        "air": "Air Control",
+        "sea": "Sea Control"
+      },
+      "weapons": "Weapons"
+    },
+    "Gear": {
+      "Misc": "Miscellaneous Gear"
+    },
+    "SheetLabels": {
+      "Actor": "ProwlersParagons Actor Sheet",
+      "Item": "ProwlersParagons Item Sheet"
+    },
+    "Item": {
+      "Power": {
+        "power_rank_type": {
+          "power": "Power",
+          "baseline": "Baseline",
+          "default": "Default",
+          "special": "Special"
+        },
+        "source": {
+          "magic": "Magic",
+          "innate": "Innate",
+          "psychic": "Psychic",
+          "super": "Super",
+          "tech": "Tech",
+          "trained": "Trained"
+        },
+        "range": {
+          "self": "Self",
+          "touch": "Touch",
+          "ranged": "Ranged",
+          "zone": "Zone",
+          "special": "Special"
+        }      }
+    },
+    "Effect": {
+      "Source": "Source",
+      "Toggle": "Toggle Effect",
+      "Temporary": "Temporary Effects",
+      "Passive": "Passive Effects",
+      "Inactive": "Inactive Effects",
+      "Conditions": "Conditions",
+      "Procon": "Pros and Cons (create as an item and drag here)",
+      "ProConList": "Pros and Cons affecting this power",
+      "Duration": "Duration"
+    },
+    "Packages": {
+      "hero": "Hero",
+      "civilian": "Civilian",
+      "superhero": "Superhero",
+      "clear": "Clear Package"
+    },
+    "Roll": {
+      "RollDetails": "Roll Details",
+      "Difficulty": "Difficulty",
+      "TraitRolling": "Rolling",
+      "Modifiers": "Modifiers",
+      "Difficulties": {
+        "Easy": "Easy (0)",
+        "Average": "Average (1)",
+        "Hard": "Hard (2)",
+        "Daunting": "Daunting (3)",
+        "Brutal": "Brutal (4)",
+        "Inhuman": "Inhuman (5)",
+        "Superhuman": "Superhuman (6-8)",
+        "Legendary": "Legendary (9-11)",
+        "Godlike": "Godlike (12+)"
+      },
+      "DifficultiesForRollMessage": {
+        "Easy": "Easy ({level})",
+        "Average": "Average ({level})",
+        "Hard": "Hard ({level})",
+        "Daunting": "Daunting ({level})",
+        "Brutal": "Brutal ({level})",
+        "Inhuman": "Inhuman ({level})",
+        "Superhuman": "Superhuman ({level})",
+        "Legendary": "Legendary ({level})",
+        "Godlike": "Godlike ({level})",
+        "Opposed": "Opposed ({level})"
+      },
+      "HalveToughness": "Halve Toughness (defense against lethal damage)",
+      "MinionOffense": "Offensive roll (add minion group bonus)"
+    },
+    "Threat": "Threat",
+    "DerivedCharacteristics": {
+      "Health": "Health",
+      "Edge": "Edge",
+      "Resolve": {
+        "Label": "Resolve",
+        "Current": "Current",
+        "Starting": "Starting",
+        "ResetToStarting": "Reset to Starting",
+        "SpendMenu": {
+          "SpendResolve": "Spend Resolve",
+          "NoResolve": "No Resolve points remaining!",
+          "Options": {
+            "AssistingAllies": "Assisting Allies (give to ally)",
+            "AddDice": "Add 1 Dice per Resolve",
+            "RerollCompletely": "Reroll Completely",
+            "CombatSpends": "Combat Spends",
+            "SeizeInitiative": "Seize Initiative",
+            "Knockback": "Knockback",
+            "LureAttacker": "Lure an Attacker into Hitting Something Else",
+            "EnhanceTeamAttack": "Enhance Team Attack",
+            "ReduceLethality": "(Gritty Combat) Reduce Lethality",
+            "LuckyBreaks": "Lucky Breaks",
+            "PowerStunts": "Power Stunts",
+            "PowerUse": "Power Use"
+          }
+        }
+      },
+      "SpentHeroPoints": "Spent Hero Points",
+      "StartingHeroPointBudget": "Starting Hero Point Budget",
+      "EarnedHeroPoints": "Earned Hero Points",
+      "TotalHeroPointBudget": "Total Hero Point Budget"
+    },
+    "GM": {
+      "Adversity": "Adversity",
+      "SpendAdversity": "Spend Adversity",
+      "SpendAdversityMenu": {
+        "Title": "Spend Adversity",
+        "NoAdversity": "No Adversity points remaining!",
+        "Options": {
+          "Flaws": "Flaws",
+          "Misfortune": "Misfortune",
+          "Villainy": "Villainy"
+        }   
+      },
+      "Characters": "Characters",
+      "AwardResolve": "Award Resolve",
+      "RemoveCharacter": "Remove character",
+      "Talents": "Talents",
+      "Rank": "Rank"
+    },
+    "NarrativeControl": {
+      "Opponent": "Opponent",
+      "OpponentWithEmbellishment": "Opponent with Embellishment",
+      "Actor": "Actor",
+      "ActorWithEmbellishment": "Actor with Embellishment"
+    },
+    "TraditionalResults": {
+      "CompleteFailure": "Complete Failure",
+      "PartialFailure": "Failure with Silver Lining",
+      "PartialSuccess": "Success with Complication",
+      "CompleteSuccess": "Complete Success"
+    },
+    "Chat": {
+      "NoConditionsToApply": "No conditions to apply"
+    }
+  },
+  "Errors": {
+    "CouldNotFindItem": "Could not find item: _ITEM_ID_",
+    "DropFailedWith": "Drop failed with error: _ERROR_MSG_"
+  },
+  "TYPES": {
+    "Actor": {
+      "character": "Character",
+      "minion": "Minion",
+      "vehicle": "Vehicle",
+      "hq": "Headquarters",
+      "gm-sheet": "GM Sheet"
+    },
+    "Item": {
+      "item": "Item",
+      "feature": "Feature",
+      "power": "Power",
+      "procon": "Pro/Con",
+      "perk": "Perk",
+      "flaw": "Flaw",
+      "weapon": "Weapon",
+      "armor": "Armor",
+      "condition": "Condition"
+    }
+  }
+}

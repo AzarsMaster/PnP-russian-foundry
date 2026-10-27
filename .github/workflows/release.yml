@@ -1,0 +1,47 @@
+name: Validate and package
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - name: Verify release tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: node --input-type=module -e 'import fs from "node:fs"; if (process.env.GITHUB_REF_NAME !== `v${JSON.parse(fs.readFileSync("module.json")).version}`) process.exit(1)'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pnp-russian
+          path: |
+            dist/pnp-russian.zip
+            dist/module.json
+            dist/SHA256SUMS
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: pnp-russian
+          path: dist
+      - name: Publish tagged release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release create "$GITHUB_REF_NAME" dist/pnp-russian.zip dist/module.json dist/SHA256SUMS --title "$GITHUB_REF_NAME" --generate-notes

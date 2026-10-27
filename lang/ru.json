@@ -1,0 +1,269 @@
+{
+  "PROWLERS_AND_PARAGONS": {
+    "Ability": {
+      "Agi": {
+        "long": "Ловкость",
+        "abbr": "лов"
+      },
+      "Int": {
+        "long": "Интеллект",
+        "abbr": "инт"
+      },
+      "Mgt": {
+        "long": "Мощь",
+        "abbr": "мощ"
+      },
+      "Per": {
+        "long": "Восприятие",
+        "abbr": "вос"
+      },
+      "Tgh": {
+        "long": "Прочность",
+        "abbr": "прч"
+      },
+      "Wil": {
+        "long": "Сила воли",
+        "abbr": "вол"
+      }
+    },
+    "Talent": {
+      "academics": "Академические знания",
+      "charm": "Обаяние",
+      "command": "Лидерство",
+      "covert": "Скрытность",
+      "investigation": "Следствие",
+      "medicine": "Медицина",
+      "professional": "Бизнес",
+      "science": "Наука",
+      "streetwise": "Знание улиц",
+      "survival": "Выживание",
+      "technology": "Технологии",
+      "vehicles": "Транспорт"
+    },
+    "Vehicle": {
+      "body": "Корпус",
+      "speed": {
+        "land": "Скорость на земле",
+        "air": "Скорость в воздухе",
+        "sea": "Скорость на воде"
+      },
+      "control": {
+        "land": "Управление на земле",
+        "air": "Управление в воздухе",
+        "sea": "Управление на воде"
+      },
+      "weapons": "Оружие"
+    },
+    "Gear": {
+      "Misc": "Прочее снаряжение"
+    },
+    "SheetLabels": {
+      "Actor": "Лист персонажа — Бродяги и Бесподобные",
+      "Item": "Лист предмета — Бродяги и Бесподобные"
+    },
+    "Item": {
+      "Power": {
+        "power_rank_type": {
+          "power": "Сила",
+          "baseline": "Базовый",
+          "default": "По умолчанию",
+          "special": "Особый"
+        },
+        "source": {
+          "magic": "Магический",
+          "innate": "Врожденный",
+          "psychic": "Психический",
+          "super": "Суперский",
+          "tech": "Технологический",
+          "trained": "Тренированный"
+        },
+        "range": {
+          "self": "На себя",
+          "touch": "Касание",
+          "ranged": "Дальность",
+          "zone": "Зона",
+          "special": "Особая"
+        }
+      },
+      "Procon": {
+        "cost": "Стоимость",
+        "cost-flat": "Фиксированная стоимость",
+        "kind": "Плюс или Минус",
+        "cost-per-rank": "Стоимость за Ранг"
+      }
+    },
+    "Effect": {
+      "Source": "Источник",
+      "Toggle": "Включить или выключить эффект",
+      "Temporary": "Временные эффекты",
+      "Passive": "Пассивные эффекты",
+      "Inactive": "Неактивные эффекты",
+      "Conditions": "Состояния",
+      "Procon": "Плюсы и Минусы (создайте как предмет и перетащите сюда)",
+      "ProConList": "Плюсы и Минусы этой Силы",
+      "Duration": "Длительность"
+    },
+    "Packages": {
+      "hero": "Герой",
+      "civilian": "Гражданский",
+      "superhero": "Супергерой",
+      "clear": "Очистить набор"
+    },
+    "Roll": {
+      "RollDetails": "Подробности броска",
+      "Difficulty": "Сложность",
+      "TraitRolling": "Бросок",
+      "Modifiers": "Модификаторы",
+      "Difficulties": {
+        "Easy": "Лёгкая (0)",
+        "Average": "Обычная (1)",
+        "Hard": "Трудная (2)",
+        "Daunting": "Устрашающая (3)",
+        "Brutal": "Жестокая (4)",
+        "Inhuman": "Нечеловеческая (5)",
+        "Superhuman": "Сверхчеловеческая (6–8)",
+        "Legendary": "Легендарная (9–11)",
+        "Godlike": "Божественная (12+)"
+      },
+      "DifficultiesForRollMessage": {
+        "Easy": "Лёгкая ({level})",
+        "Average": "Обычная ({level})",
+        "Hard": "Трудная ({level})",
+        "Daunting": "Устрашающая ({level})",
+        "Brutal": "Жестокая ({level})",
+        "Inhuman": "Нечеловеческая ({level})",
+        "Superhuman": "Сверхчеловеческая ({level})",
+        "Legendary": "Легендарная ({level})",
+        "Godlike": "Божественная ({level})",
+        "Opposed": "Противостояние ({level})"
+      },
+      "HalveToughness": "Половина Прочности (защита от смертельного урона)",
+      "MinionOffense": "Бросок атаки (добавить бонус группы Миньонов)"
+    },
+    "Threat": "Угроза",
+    "DerivedCharacteristics": {
+      "Health": "Здоровье",
+      "Edge": "Инициатива",
+      "Resolve": {
+        "Label": "Решимость",
+        "Current": "Текущая",
+        "Starting": "Начальная",
+        "ResetToStarting": "Восстановить начальную Решимость",
+        "SpendMenu": {
+          "SpendResolve": "Потратить Решимость",
+          "NoResolve": "Очков Решимости больше нет!",
+          "Options": {
+            "AssistingAllies": "Помощь союзникам (передать союзнику)",
+            "AddDice": "Добавить 1 кубик за каждое очко Решимости",
+            "RerollCompletely": "Полностью перебросить",
+            "CombatSpends": "Расход в бою",
+            "SeizeInitiative": "Перехватить Инициативу",
+            "Knockback": "Отбрасывание",
+            "LureAttacker": "Заставить атакующего попасть в другую цель",
+            "EnhanceTeamAttack": "Усилить групповую атаку",
+            "ReduceLethality": "(Жестокий бой) Снизить смертельность",
+            "LuckyBreaks": "Удачное стечение обстоятельств",
+            "PowerStunts": "Трюки с Силами",
+            "PowerUse": "Использование Сил"
+          }
+        }
+      },
+      "SpentHeroPoints": "Потрачено Очков Героизма",
+      "StartingHeroPointBudget": "Начальный запас Очков Героизма",
+      "EarnedHeroPoints": "Получено Очков Героизма",
+      "TotalHeroPointBudget": "Общий запас Очков Героизма"
+    },
+    "GM": {
+      "Adversity": "Невзгоды",
+      "SpendAdversity": "Потратить Невзгоды",
+      "SpendAdversityMenu": {
+        "Title": "Потратить Невзгоды",
+        "NoAdversity": "Очков Невзгод больше нет!",
+        "Options": {
+          "Flaws": "Недостатки",
+          "Misfortune": "Несчастье",
+          "Villainy": "Злодейство"
+        }
+      },
+      "Characters": "Персонажи",
+      "AwardResolve": "Наградить Решимостью",
+      "RemoveCharacter": "Убрать персонажа",
+      "Talents": "Таланты",
+      "Rank": "Ранг"
+    },
+    "NarrativeControl": {
+      "Opponent": "Противник",
+      "OpponentWithEmbellishment": "Противник с Приукрашиванием",
+      "Actor": "Персонаж",
+      "ActorWithEmbellishment": "Персонаж с Приукрашиванием"
+    },
+    "TraditionalResults": {
+      "CompleteFailure": "Полный провал",
+      "PartialFailure": "Провал с положительной стороной",
+      "PartialSuccess": "Успех с осложнением",
+      "CompleteSuccess": "Полный успех"
+    },
+    "Chat": {
+      "NoConditionsToApply": "Нет состояний для применения"
+    },
+    "Actor": {
+      "gm-sheet": "Лист Мастера игры"
+    }
+  },
+  "Errors": {
+    "CouldNotFindItem": "Не удалось найти предмет: _ITEM_ID_",
+    "DropFailedWith": "Не удалось перетащить: _ERROR_MSG_"
+  },
+  "TYPES": {
+    "Actor": {
+      "character": "Персонаж",
+      "minion": "Миньон",
+      "vehicle": "Транспортное средство",
+      "hq": "Штаб-квартира",
+      "gm-sheet": "Лист Мастера игры"
+    },
+    "Item": {
+      "item": "Предмет",
+      "feature": "Особенность",
+      "power": "Сила",
+      "procon": "Плюс/Минус",
+      "perk": "Преимущество",
+      "flaw": "Недостаток",
+      "weapon": "Оружие",
+      "armor": "Броня",
+      "condition": "Состояние"
+    }
+  },
+  "PNP_RU": {
+    "Settings": {
+      "RobotoName": "Шрифт Roboto",
+      "RobotoHint": "Использовать встроенный Roboto в листах, диалогах и карточках бросков Prowlers & Paragons. Применяется после перезагрузки."
+    },
+    "Chat": {
+      "Reroll": "Перебросить",
+      "Explode": "Взрывать шестёрки"
+    },
+    "SystemSettings": {
+      "GearLimit": {
+        "Name": "Ограничение снаряжения",
+        "Hint": "Ограничение снаряжения в этом мире."
+      },
+      "HeroPointBudget": {
+        "Name": "Начальные Очки Героизма",
+        "Hint": "Сколько Очков Героизма доступно при создании персонажа."
+      },
+      "TraditionalResults": {
+        "Name": "Традиционные результаты",
+        "Hint": "Использовать традиционные результаты вместо нарративного контроля."
+      },
+      "RandomInitiative": {
+        "Name": "Бросок Инициативы",
+        "Hint": "Определять Инициативу броском вместо фиксированного значения. Требуется перезагрузка."
+      },
+      "ReducedSwinginess": {
+        "Name": "Меньший разброс результатов",
+        "Hint": "Шестёрки больше не считаются двумя успехами."
+      }
+    }
+  }
+}

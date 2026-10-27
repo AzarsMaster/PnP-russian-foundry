@@ -1,0 +1,73 @@
+<ol class='items-list'>
+    <li class='item flexrow items-header'>
+    <div class='item-name'>{{localize 'Name'}}</div>
+    <div class='item-formula'>{{localize 'Total Rank'}}</div>
+    <div>{{localize 'Toggle'}}</div>
+    <div>{{localize 'Charges'}}</div>
+  </li>
+    {{#each powers as |item id|}}
+      <li class='item flexrow' data-item-id='{{item._id}}'>
+        <a class="power-description-toggle" data-item-id="{{item._id}}"><i class="fas fa-caret-right"></i></a>
+        <div class='item-name flexrow rollable' data-roll-type='power'>
+          <div class='item-image'>
+            <a ><img
+                src='{{item.img}}'
+                title='{{item.displayName}}'
+                width='24'
+                height='24'
+              /></a>
+          </div>
+          <label class="resource-label">{{item.displayName}}</label>
+        </div>
+        <div class='item-formula item-prop'>{{ifThen (isDefaultPower item) '-' (getDerivedPowerRank item._id)}}</div>
+        {{#if item.system.toggleable}}
+         <div class='item-prop no-left-border'>
+          <input class="power-toggle" type="checkbox" name='item.system.toggleActive' {{checked item.system.toggleActive}}></input>
+         </div>
+        {{else}}
+         <div></div>
+        {{/if}}
+        {{#if item.system.hasCharges}}
+         <div class='item-prop flexrow'>
+          <input
+          type='text'
+          name='item.system.charges.value'
+          class="currentCharges"
+          value='{{item.system.charges.value}}'
+          data-dtype='Number'
+        />
+          <button class="reset-charges" title="Reset to max charges">
+            <i class="fas fa-sync"></i>
+          </button>
+         </div>
+        {{else}}
+         <div></div>
+        {{/if}}
+      </li>
+      <li class="item flexrow power-description" data-item-id="{{item._id}}">
+        <div class="item-description-content rollable" data-roll-type="powerDescription" data-item-id="{{item._id}}">
+          {{{item.system.description}}}
+        </div>
+        {{#if item.prosCons}}
+          {{#if (gt item.prosCons.length 0)}}
+          <div class="power-pros-cons">
+            <div class="section-title"><b>{{localize 'PROWLERS_AND_PARAGONS.Effect.ProConList'}}</b></div>
+            <ul class="procon-list">
+              {{#each item.prosCons as |pc idx|}}
+                <li class="procon-entry">
+                  <span class="procon-name"><b>{{pc.name}}</b></span>
+                  {{#if pc.kind}}
+                    <span class="procon-kind">({{pc.kind}})</span>
+                  {{/if}}
+                  {{#if pc.description}}
+                    <div class="procon-description rollable" data-roll-type="procon" data-item-id="{{pc._id}}" data-description="{{pc.description}}" data-label="{{pc.name}}">{{{pc.description}}}</div>
+                  {{/if}}
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+        {{/if}}
+      </li>
+    {{/each}}
+</ol>
