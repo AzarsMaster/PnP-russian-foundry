@@ -12,6 +12,7 @@ async function runtime(t, { generation = 14, lang = 'ru', system = 'prowlers-and
   globalThis.window = window;
   globalThis.ui = { windows: {} };
   globalThis.foundry = { applications: { instances: new Map() } };
+  globalThis.CONFIG = { fontDefinitions: { Arial: { editor: true, fonts: [] } } };
   globalThis.MutationObserver = window.MutationObserver;
   globalThis.Hooks = {
     on(name, callback) {
@@ -89,7 +90,7 @@ for (const generation of [13, 14]) {
       const form = wrapper.querySelector('form');
       const app = { options: {}, element: generation === 13 ? { 0: wrapper } : wrapper };
       r.fire(hook, app, generation === 13 ? { 0: form } : form);
-      const decorated = form.closest('.pnp-ru-roboto');
+      const decorated = form.closest('.pnp-ru-font');
       assert.ok(decorated, 'Specific sheet hook must enable Roboto on the rendered sheet or its ancestor');
       if (hook.includes('GMSheet')) {
         assert.match(form.querySelector('.sheet-header').textContent, /Невзгоды/);
@@ -107,7 +108,7 @@ test('system class in actual DOM identifies a sheet when app metadata omits opti
   const root = r.root(render('actor/actor-character-sheet.hbs', characterContext()));
   r.fire('renderApplication', { options: {}, element: root }, root);
   assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-  assert.ok(root.querySelector('form').closest('.pnp-ru-roboto'));
+  assert.ok(root.querySelector('form').closest('.pnp-ru-font'));
   assert.equal(root.querySelector('.editor h3').textContent, 'Powers');
 });
 
@@ -120,7 +121,7 @@ test('app.element wrapper identifies the system sheet when hook html contains on
   const content = wrapper.querySelector('.window-content');
   r.fire('renderApplication', { options: {}, element: { 0: wrapper } }, { 0: content });
   assert.equal(content.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-  assert.ok(wrapper.classList.contains('pnp-ru-roboto'), 'Font class must cover the application wrapper and title');
+  assert.ok(wrapper.classList.contains('pnp-ru-font'), 'Font class must cover the application wrapper and title');
   assert.equal(wrapper.querySelector('.window-title').textContent, 'Armor');
   assert.equal(content.querySelector('.editor h3').textContent, 'Powers');
 });
@@ -136,7 +137,7 @@ test('rerender after replacing the sheet content localizes newly inserted tabs a
   r.fire('renderProwlersParagonsActorSheet', app, { 0: root.querySelector('form') });
   const form = root.querySelector('form');
   assert.equal(form.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-  assert.ok(form.closest('.pnp-ru-roboto'));
+  assert.ok(form.closest('.pnp-ru-font'));
   form.querySelector('.sheet-tabs [data-tab="gear"]').textContent = 'Gear';
   await new Promise(resolve => setTimeout(resolve, 0));
   assert.equal(form.querySelector('.sheet-tabs [data-tab="gear"]').textContent, 'Снаряжение');
@@ -152,7 +153,7 @@ for (const registry of ['ui.windows', 'foundry.applications.instances']) {
     assert.equal(wrapper.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Powers');
     r.fire('ready');
     assert.equal(wrapper.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-    assert.ok(wrapper.querySelector('form').closest('.pnp-ru-roboto'));
+    assert.ok(wrapper.querySelector('form').closest('.pnp-ru-font'));
     assert.equal(wrapper.querySelector('input[name="name"]').value, 'Armor');
     assert.equal(wrapper.querySelector('.editor h3').textContent, 'Powers');
   });
@@ -164,7 +165,7 @@ test('a newly attached system window is localized when its renderer dispatches n
   assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Powers');
   await new Promise(resolve => setTimeout(resolve, 0));
   assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-  assert.ok(root.querySelector('form').closest('.pnp-ru-roboto'));
+  assert.ok(root.querySelector('form').closest('.pnp-ru-font'));
   assert.equal(root.querySelector('.editor h3').textContent, 'Powers');
 });
 
@@ -178,7 +179,7 @@ test('window attachment fallback handles a shell inserted before its unclassifie
   root.innerHTML = render('actor/actor-character-sheet.hbs', context);
   await new Promise(resolve => setTimeout(resolve, 0));
   assert.equal(root.querySelector('.sheet-tabs [data-tab="powers"]').textContent, 'Силы');
-  assert.ok(root.classList.contains('pnp-ru-roboto'));
+  assert.ok(root.classList.contains('pnp-ru-font'));
 });
 
 for (const generation of [13, 14]) {
@@ -189,7 +190,7 @@ for (const generation of [13, 14]) {
     const app = { options: { classes: ['prowlers-and-paragons', 'sheet'] }, document };
     r.fire('renderApplication', app, generation === 13 ? { 0: root } : root);
     assert.equal(root.querySelector('a').textContent, 'Силы');
-    assert(root.classList.contains('pnp-ru-roboto'));
+    assert(root.classList.contains('pnp-ru-font'));
     assert.equal(document.name, 'Powers');
     const dialog = r.root('<h4 class="window-title">Choose an option</h4><div class="trait-selection-dialog"><b>Abilities</b><label><input value="item:armor">Armor</label></div><footer class="form-footer"><button>Make Choice</button></footer>');
     r.fire('renderApplicationV2', { options: {} }, dialog);
@@ -256,11 +257,17 @@ for (const config of [{ lang: 'en' }, { system: 'dnd5e' }]) {
   });
 }
 
-test('Roboto client setting can be disabled while translation remains active', async t => {
+test('font dropdown replaces the Roboto toggle and changes an open sheet without affecting translation', async t => {
   const r = await runtime(t);
-  r.settings.get('pnp-russian.roboto').default = false;
+  assert.equal(r.settings.has('pnp-russian.roboto'), false);
+  const setting = r.settings.get('pnp-russian.sheetFont');
+  assert.equal(setting.default, 'Roboto');
+  assert.equal(setting.choices.Roboto, 'Roboto (по умолчанию)');
   const root = r.root('<nav class="sheet-tabs"><a data-tab="powers">Powers</a></nav>');
   r.fire('renderApplication', { options: { classes: ['prowlers-and-paragons'] } }, root);
+  setting.default = 'Arial';
+  setting.onChange('Arial');
   assert.equal(root.querySelector('a').textContent, 'Силы');
-  assert(!root.classList.contains('pnp-ru-roboto'));
+  assert(root.classList.contains('pnp-ru-font'));
+  assert.match(root.style.getPropertyValue('--pnp-font-family'), /^"Arial"/);
 });

@@ -1,5 +1,5 @@
 const MODULE_ID = 'pnp-russian';
-export const THEMES = Object.freeze(['dark', 'light', 'green']);
+export const THEMES = Object.freeze(['dark', 'light', 'green', 'red', 'blue', 'purple']);
 const PREFERENCES = ['world', ...THEMES];
 const validTheme = value => THEMES.includes(value);
 const preference = value => PREFERENCES.includes(value) ? value : 'world';

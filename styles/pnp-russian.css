@@ -1,16 +1,16 @@
 /* All changes stay inside this system's localized sheets, dialogs and cards. */
-.pnp-ru-roboto {
-  --font-primary: 'PnP Roboto', sans-serif;
-  --font-body: 'PnP Roboto', sans-serif;
-  --font-header: 'PnP Roboto', sans-serif;
+.pnp-ru-font {
+  --font-primary: var(--pnp-font-family);
+  --font-body: var(--pnp-font-family);
+  --font-header: var(--pnp-font-family);
 }
 
 /* The system sets Bangers/Roboto Condensed on containers such as .items-header,
    .item-prop and .editor as well as individual controls. Cover all text nodes'
    elements, including those containers, while preserving icon font classes. */
-.pnp-ru-roboto,
-.pnp-ru-roboto :where(*):not(i, svg, path, .fa, .fas, .far, .fal, .fab, .fad, .fat, .fass, [class*='fa-']) {
-  font-family: 'PnP Roboto', sans-serif !important;
+.pnp-ru-font,
+.pnp-ru-font :where(*):not(i, svg, path, .fa, .fas, .far, .fal, .fab, .fad, .fat, .fass, [class*='fa-']) {
+  font-family: var(--pnp-font-family, 'PnP Roboto', sans-serif) !important;
 }
 
 /* Let Russian labels wrap instead of clipping the system's fixed-height rows. */

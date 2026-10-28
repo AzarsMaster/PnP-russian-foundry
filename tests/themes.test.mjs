@@ -44,7 +44,7 @@ function runtime(t, { world = 'light', saved, cached = 'world' } = {}) {
   return { definitions, values, flags, writes, user, callbacks };
 }
 
-test('world default and personal override expose the three palettes with separate settings scopes', t => {
+test('world default and personal override expose all six palettes with separate settings scopes', t => {
   const r = runtime(t);
   const world = r.definitions.get('worldTheme');
   const personal = r.definitions.get('personalTheme');
@@ -52,8 +52,8 @@ test('world default and personal override expose the three palettes with separat
   assert.equal(personal.scope, 'client');
   assert.equal(world.default, 'light');
   assert.equal(personal.default, 'world');
-  assert.deepEqual(Object.keys(world.choices), ['dark', 'light', 'green']);
-  assert.deepEqual(Object.keys(personal.choices), ['world', 'dark', 'light', 'green']);
+  assert.deepEqual(Object.keys(world.choices), ['dark', 'light', 'green', 'red', 'blue', 'purple']);
+  assert.deepEqual(Object.keys(personal.choices), ['world', 'dark', 'light', 'green', 'red', 'blue', 'purple']);
   assert.equal(world.requiresReload, undefined);
   assert.equal(personal.requiresReload, undefined);
 });

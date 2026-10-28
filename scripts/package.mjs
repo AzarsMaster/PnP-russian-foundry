@@ -16,7 +16,7 @@ for (const file of ['module.json', 'lang', 'styles', 'fonts', 'README.md', 'CHAN
   await cp(path.join(root, file), path.join(stage, file), { recursive: true });
 }
 await mkdir(path.join(stage, 'scripts'));
-for (const file of ['main.mjs', 'ui.mjs', 'ui-strings.mjs', 'themes.mjs']) {
+for (const file of ['main.mjs', 'ui.mjs', 'ui-strings.mjs', 'themes.mjs', 'fonts.mjs']) {
   await cp(path.join(root, 'scripts', file), path.join(stage, 'scripts', file));
 }
 await cp(path.join(root, 'docs'), path.join(stage, 'docs'), { recursive: true });

@@ -2,7 +2,7 @@
   "id": "pnp-russian",
   "title": "Бродяги и Бесподобные — русский перевод",
   "description": "Русские листы и интерфейс бросков Prowlers & Paragons Ultimate Edition по глоссарию. Локальный шрифт Roboto.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "authors": [{ "name": "AzarsMaster" }],
   "compatibility": { "minimum": "13", "verified": "14" },
   "relationships": {
@@ -17,7 +17,7 @@
   "styles": ["styles/roboto.css", "styles/pnp-russian.css", "styles/themes.css"],
   "url": "https://github.com/AzarsMaster/PnP-russian-foundry",
   "manifest": "https://github.com/AzarsMaster/PnP-russian-foundry/releases/latest/download/module.json",
-  "download": "https://github.com/AzarsMaster/PnP-russian-foundry/releases/download/v0.2.0/pnp-russian.zip",
+  "download": "https://github.com/AzarsMaster/PnP-russian-foundry/releases/download/v0.3.0/pnp-russian.zip",
   "readme": "README.md",
   "changelog": "CHANGELOG.md",
   "license": "LICENSE"

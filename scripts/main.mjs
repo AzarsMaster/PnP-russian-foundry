@@ -1,5 +1,6 @@
 import { isSystemDialog, localizeSheet, localizeDialog, localizeChat } from './ui.mjs';
 import { applySheetTheme, registerThemeSettings, synchronizePersonalTheme } from './themes.mjs';
+import { applyFont, registerFontSettings, initializeFonts } from './fonts.mjs';
 
 export const MODULE_ID = 'pnp-russian';
 export const SYSTEM_ID = 'prowlers-and-paragons';
@@ -21,7 +22,7 @@ function decorate(root, translate) {
   const previous = observers.get(root);
   previous?.disconnect();
   root.classList.add('pnp-ru');
-  root.classList.toggle('pnp-ru-roboto', game.settings.get(MODULE_ID, 'roboto'));
+  applyFont(root);
   if (translate === localizeSheet) applySheetTheme(root);
   translate(root);
   const observer = previous ?? new MutationObserver(() => {
@@ -59,11 +60,7 @@ function renderApp(app, html, knownSystemSheet = false) {
 
 Hooks.once('init', () => {
   registerThemeSettings();
-  game.settings.register(MODULE_ID, 'roboto', {
-    name: 'PNP_RU.Settings.RobotoName',
-    hint: 'PNP_RU.Settings.RobotoHint',
-    scope: 'client', config: true, type: Boolean, default: true, requiresReload: true
-  });
+  registerFontSettings();
 });
 
 // Listen to the actual system/base sheet events as well as generic events:
@@ -147,6 +144,7 @@ Hooks.on('renderChatMessageHTML', renderMessage);
 Hooks.once('ready', () => {
   if (!active()) return;
   initializeOpenSheets();
+  initializeFonts();
   synchronizePersonalTheme().catch(error => console.error(`${MODULE_ID} | Theme initialization failed`, error));
   // Register after the system adds its menu hooks during init, so its entries
   // exist before we translate them.

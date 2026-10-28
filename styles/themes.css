@@ -41,6 +41,48 @@
   --pnp-danger: #ffaaa7;
 }
 
+.pnp-ru-sheet[data-pnp-theme='red'] {
+  color-scheme: dark;
+  --pnp-bg: #2a1217;
+  --pnp-panel: #3a1c24;
+  --pnp-panel-alt: #4d2630;
+  --pnp-text: #fff0ef;
+  --pnp-muted: #e2bdc2;
+  --pnp-input: #210e13;
+  --pnp-accent: #f5a1a9;
+  --pnp-accent-text: #3c111a;
+  --pnp-border: #a26c76;
+  --pnp-danger: #ffc29a;
+}
+
+.pnp-ru-sheet[data-pnp-theme='blue'] {
+  color-scheme: dark;
+  --pnp-bg: #101e35;
+  --pnp-panel: #172b49;
+  --pnp-panel-alt: #213c60;
+  --pnp-text: #edf4ff;
+  --pnp-muted: #b6cbea;
+  --pnp-input: #0c172b;
+  --pnp-accent: #90bfff;
+  --pnp-accent-text: #11233d;
+  --pnp-border: #627fa5;
+  --pnp-danger: #ffaaaa;
+}
+
+.pnp-ru-sheet[data-pnp-theme='purple'] {
+  color-scheme: dark;
+  --pnp-bg: #21142f;
+  --pnp-panel: #30203f;
+  --pnp-panel-alt: #412c54;
+  --pnp-text: #f6efff;
+  --pnp-muted: #d0bfdf;
+  --pnp-input: #190d26;
+  --pnp-accent: #d3b0f5;
+  --pnp-accent-text: #2c113e;
+  --pnp-border: #8e739f;
+  --pnp-danger: #ffaaa7;
+}
+
 .pnp-ru-sheet[data-pnp-theme] {
   /* Override the system's global comic-book palette inside this window only. */
   --primary-color: var(--pnp-accent);

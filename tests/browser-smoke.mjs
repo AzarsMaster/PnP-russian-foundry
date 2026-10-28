@@ -27,6 +27,10 @@ const hooks = `
   const values = new Map();
   const profile = new Map();
   window.themeProfile = profile;
+  window.worldFonts = { Arial: 'Arial', 'World Test Font': 'World Test Font' };
+  window.foundry = { applications: { settings: { menus: { FontConfig: {
+    getAvailableFontChoices() { return { ...window.worldFonts }; }
+  } } } } };
   window.game = {
     version: '14.368', system: { id: 'prowlers-and-paragons' }, i18n: { lang: 'ru' },
     user: { id: 'alice', getFlag(_scope, key) { return profile.get(key); },
@@ -40,6 +44,7 @@ const hooks = `
   };
   window.setWorldTheme = value => game.settings.set('pnp-russian', 'worldTheme', value);
   window.setPersonalTheme = value => game.settings.set('pnp-russian', 'personalTheme', value);
+  window.setSheetFont = value => game.settings.set('pnp-russian', 'sheetFont', value);
   window.ui = { windows: {} };
   await import('/scripts/main.mjs');
   fire('init');
@@ -61,7 +66,7 @@ const server = createServer(async (request, response) => {
       if (url.searchParams.get('systemLast') === '1') styles.push(styles.shift());
       response.setHeader('content-type', 'text/html; charset=utf-8');
       response.end(`<!doctype html><html><head><meta charset="utf-8">${styles.map(p => `<link rel="stylesheet" href="${p}">`).join('')}
-        <style>body{margin:20px;background:#eee}#sheet{width:650px}.fas{font-family:'Font Awesome 6 Free'}#unrelated{font-family:serif}</style>
+        <style>@font-face{font-family:'World Test Font';src:url('/fonts/roboto-latin-wght-normal.woff2')}body{margin:20px;background:#eee}#sheet{width:650px}.fas{font-family:'Font Awesome 6 Free'}#unrelated{font-family:serif}</style>
         </head><body><section id="sheet" class="app window-app prowlers-and-paragons sheet actor">
         <header class="window-header"><h4 class="window-title">Armor</h4></header><section class="window-content">${sheet}</section>
         </section><p id="unrelated">Unrelated window</p><script type="module">${hooks}</script></body></html>`);
@@ -118,7 +123,7 @@ try {
       document.querySelector('.editor-content').append(span);
       document.querySelector('.sheet-tabs a').classList.add('active');
     });
-    for (const theme of ['dark', 'light', 'green']) {
+    for (const theme of ['dark', 'light', 'green', 'red', 'blue', 'purple']) {
       await page.evaluate(value => window.setWorldTheme(value), theme);
       assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), theme);
       // PnP animates item/control colors for 200 ms; measure the selected
@@ -163,7 +168,7 @@ try {
     await page.evaluate(() => {
       const clone = document.querySelector('#sheet').cloneNode(true);
       clone.id = 'late-sheet';
-      clone.classList.remove('pnp-ru', 'pnp-ru-roboto');
+      clone.classList.remove('pnp-ru', 'pnp-ru-font');
       clone.querySelector('[data-tab="powers"]').textContent = 'Powers';
       document.body.append(clone);
     });
@@ -173,12 +178,33 @@ try {
     await page.evaluate(() => window.setPersonalTheme('world'));
     assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), 'light');
     assert.equal(await page.locator('#late-sheet').getAttribute('data-pnp-theme'), 'light');
+    // The list comes from the world's FontConfig and is refreshed for the
+    // first settings render, including fonts registered after ready.
+    await page.evaluate(() => {
+      window.worldFonts['Courier New'] = 'Courier New';
+      const form = document.createElement('form');
+      form.id = 'font-settings';
+      form.innerHTML = '<select name="pnp-russian.sheetFont"><option value="stale">Stale list</option></select>';
+      document.body.append(form);
+      fire('renderSettingsConfig', {}, form);
+    });
+    const options = await page.locator('#font-settings option').evaluateAll(elements => elements.map(e => [e.value, e.textContent]));
+    assert.deepEqual(options, [['Roboto', 'Roboto (по умолчанию)'], ['Arial', 'Arial'], ['Courier New', 'Courier New'], ['World Test Font', 'World Test Font']]);
+    await page.evaluate(() => window.setSheetFont('World Test Font'));
+    await page.evaluate(() => document.fonts.load('16px "World Test Font"', 'World test'));
+    for (const selector of ['#sheet input[name="name"]', '#sheet .sheet-tabs a', '#sheet .items-header', '#late-sheet input[name="name"]']) {
+      assert.match(await page.locator(selector).first().evaluate(e => getComputedStyle(e).fontFamily), /^"World Test Font"/);
+    }
+    assert.match(await page.locator('#sheet i.fas').first().evaluate(e => getComputedStyle(e).fontFamily), /Font Awesome/);
+    assert.doesNotMatch(await page.locator('#unrelated').evaluate(e => getComputedStyle(e).fontFamily), /World Test Font/);
+    await page.evaluate(() => window.setSheetFont('Roboto'));
+    assert.match(await page.locator('#sheet input[name="name"]').evaluate(e => getComputedStyle(e).fontFamily), /^"PnP Roboto"/);
     assert.deepEqual(errors, []);
     if (!systemLast) {
       await mkdir(path.join(root, 'dist'), { recursive: true });
       await page.screenshot({ path: path.join(root, 'dist/validation-sheet.png'), fullPage: true });
     }
-    console.log(`Chromium: Russian tabs, ${Object.keys(fonts).length} font selectors, 3 palettes/contrast, world/personal live changes and new windows OK (systemLast=${systemLast})`);
+    console.log(`Chromium: Russian tabs, ${Object.keys(fonts).length} font selectors, 6 palettes/contrast, world font dropdown/live selection, personal themes and new windows OK (systemLast=${systemLast})`);
     await page.close();
   }
 } finally {
