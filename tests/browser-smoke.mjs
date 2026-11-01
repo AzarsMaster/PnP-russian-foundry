@@ -11,6 +11,33 @@ const manifest = JSON.parse(await readFile(path.join(root, 'module.json'), 'utf8
 const context = characterContext();
 context.cssClass = '';
 const sheet = render('actor/actor-character-sheet.hbs', context);
+
+async function assertOriginalLightTheme(page) {
+  async function snapshot(disabled) {
+    return page.evaluate(async value => {
+      document.querySelector('link[href="/styles/themes.css"]').disabled = value;
+      getComputedStyle(document.querySelector('.item-name')).color;
+      await Promise.allSettled(document.getAnimations().map(animation => animation.finished));
+      const selectors = [
+        '#sheet', '.window-content', '.sheet-header', '.sheet-header .resource-label',
+        '.sheet-tabs', '.sheet-tabs a.active', '.items-header', '.items-list',
+        '.items-list .item-name', 'input[name="name"]', 'button', '.editor',
+        '.target-display', '.spend-resolve-dropdown'
+      ];
+      const properties = ['color', 'backgroundColor', 'backgroundImage', 'borderTopColor',
+        'borderTopStyle', 'borderTopWidth', 'borderRadius', 'boxShadow', 'textShadow', 'colorScheme'];
+      return Object.fromEntries(selectors.map(selector => {
+        const style = getComputedStyle(document.querySelector(selector));
+        return [selector, Object.fromEntries(properties.map(property => [property, style[property]]))];
+      }));
+    }, disabled);
+  }
+  const light = await snapshot(false);
+  const original = await snapshot(true);
+  await snapshot(false);
+  assert.deepEqual(light, original, 'Light must match original system colors, backgrounds, borders and effects');
+}
+
 const hooks = `
   const callbacks = new Map();
   window.Hooks = {
@@ -132,7 +159,10 @@ try {
         getComputedStyle(document.querySelector('.item-name')).color;
         await Promise.allSettled(document.getAnimations().map(animation => animation.finished));
       });
-      const contrasts = await page.evaluate(() => {
+      // Light delegates to the original design rather than a custom palette.
+      // Compare its actual styles with theme CSS disabled, including after dark.
+      if (theme === 'light') await assertOriginalLightTheme(page);
+      const contrasts = theme === 'light' ? [] : await page.evaluate(() => {
         function luminance(color) {
           const rgb = color.match(/[\d.]+/g).slice(0, 3).map(Number).map(v => {
             v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
@@ -178,6 +208,10 @@ try {
     await page.evaluate(() => window.setPersonalTheme('world'));
     assert.equal(await page.locator('#sheet').getAttribute('data-pnp-theme'), 'light');
     assert.equal(await page.locator('#late-sheet').getAttribute('data-pnp-theme'), 'light');
+    await assertOriginalLightTheme(page);
+    assert.equal(await page.locator('#sheet .window-content').evaluate(e => getComputedStyle(e).backgroundColor),
+      await page.locator('#late-sheet .window-content').evaluate(e => getComputedStyle(e).backgroundColor));
+    assert.equal(await page.locator('#sheet .sheet-tabs [data-tab="powers"]').textContent(), 'Силы');
     // The list comes from the world's FontConfig and is refreshed for the
     // first settings render, including fonts registered after ready.
     await page.evaluate(() => {
@@ -204,7 +238,7 @@ try {
       await mkdir(path.join(root, 'dist'), { recursive: true });
       await page.screenshot({ path: path.join(root, 'dist/validation-sheet.png'), fullPage: true });
     }
-    console.log(`Chromium: Russian tabs, ${Object.keys(fonts).length} font selectors, 6 palettes/contrast, world font dropdown/live selection, personal themes and new windows OK (systemLast=${systemLast})`);
+    console.log(`Chromium: original Light styling, 5 custom palettes/contrast, Russian tabs, ${Object.keys(fonts).length} font selectors, live theme/font changes and new windows OK (systemLast=${systemLast})`);
     await page.close();
   }
 } finally {

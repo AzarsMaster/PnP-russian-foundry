@@ -13,19 +13,7 @@
   --pnp-danger: #ff9f9f;
 }
 
-.pnp-ru-sheet[data-pnp-theme='light'] {
-  color-scheme: light;
-  --pnp-bg: #f4f6f8;
-  --pnp-panel: #ffffff;
-  --pnp-panel-alt: #e4ebf2;
-  --pnp-text: #202b3a;
-  --pnp-muted: #4d5e72;
-  --pnp-input: #ffffff;
-  --pnp-accent: #215d9c;
-  --pnp-accent-text: #ffffff;
-  --pnp-border: #7e8fa4;
-  --pnp-danger: #a62032;
-}
+/* "light" intentionally uses the original system styling without overrides. */
 
 .pnp-ru-sheet[data-pnp-theme='green'] {
   color-scheme: dark;
@@ -83,7 +71,7 @@
   --pnp-danger: #ffaaa7;
 }
 
-.pnp-ru-sheet[data-pnp-theme] {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) {
   /* Override the system's global comic-book palette inside this window only. */
   --primary-color: var(--pnp-accent);
   --secondary-color: var(--pnp-text);
@@ -113,169 +101,169 @@
 }
 
 /* Replace Foundry's parchment image as well as its fallback background color. */
-.pnp-ru-sheet[data-pnp-theme] :is(.window-content, .sheet-body) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.window-content, .sheet-body) {
   background: var(--pnp-bg) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.window-header, .sheet-header) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.window-header, .sheet-header) {
   background: var(--pnp-panel-alt) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.window-title, .window-header a, .sheet-header h1, .sheet-header h2, .sheet-header h3, .sheet-header h4, .resource-label, .abilities > h3, .sheet-body .main > h3, .sheet-body .tab > h3, .tab.options > div > h3, .power-pros-cons .section-title) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.window-title, .window-header a, .sheet-header h1, .sheet-header h2, .sheet-header h3, .sheet-header h4, .resource-label, .abilities > h3, .sheet-body .main > h3, .sheet-body .tab > h3, .tab.options > div > h3, .power-pros-cons .section-title) {
   color: var(--pnp-text) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input, select, textarea, option, optgroup) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input, select, textarea, option, optgroup) {
   color: var(--pnp-text) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']), select, textarea, option, optgroup) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']), select, textarea, option, optgroup) {
   background: var(--pnp-input) !important;
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input, textarea)::placeholder {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input, textarea)::placeholder {
   color: var(--pnp-muted);
   opacity: 1;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input[type='checkbox'], input[type='radio'], input[type='range']) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input[type='checkbox'], input[type='radio'], input[type='range']) {
   accent-color: var(--pnp-accent);
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input, select, textarea, button, a):focus-visible {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input, select, textarea, button, a):focus-visible {
   outline: 2px solid var(--pnp-accent);
   outline-offset: 2px;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input, select, textarea):focus {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input, select, textarea):focus {
   border-color: var(--pnp-accent) !important;
   box-shadow: 0 0 0 1px var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] .highlighted-border {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) .highlighted-border {
   border-color: var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(input, select, textarea, button):disabled {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(input, select, textarea, button):disabled {
   opacity: 0.65;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.items-list, table, .editor, .prosemirror, .tox .tox-editor-container, .tox .tox-edit-area) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.items-list, table, .editor, .prosemirror, .tox .tox-editor-container, .tox .tox-edit-area) {
   background: var(--pnp-panel) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
 }
 
 /* Set the editor surface, not every rich-text descendant: authored colors stay. */
-.pnp-ru-sheet[data-pnp-theme] :is(.editor-content, .ProseMirror, .prosemirror .editor-container) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.editor-content, .ProseMirror, .prosemirror .editor-container) {
   background: var(--pnp-panel) !important;
   color: var(--pnp-text) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.editor-menu, .prosemirror .editor-menu, .tox .tox-toolbar, .tox .tox-toolbar__primary, .tox .tox-menubar) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.editor-menu, .prosemirror .editor-menu, .tox .tox-toolbar, .tox .tox-toolbar__primary, .tox .tox-menubar) {
   background: var(--pnp-panel-alt) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.editor-menu button, .editor-menu span, .editor-menu i, .tox .tox-tbtn, .tox .tox-mbtn) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.editor-menu button, .editor-menu span, .editor-menu i, .tox .tox-tbtn, .tox .tox-mbtn) {
   background: transparent !important;
   color: var(--pnp-text) !important;
   border-color: transparent !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.items-header, thead, tfoot) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.items-header, thead, tfoot) {
   background: var(--pnp-panel-alt) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.items-list .item-name, .items-list .item-prop, .items-list .item-controls, .items-list .effect-source, .items-list .effect-duration, .items-list .effect-controls, .items-header > *, tbody th, tbody td) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.items-list .item-name, .items-list .item-prop, .items-list .item-controls, .items-list .effect-source, .items-list .effect-duration, .items-list .effect-controls, .items-header > *, tbody th, tbody td) {
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.items-list .item, tbody tr) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.items-list .item, tbody tr) {
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] tbody tr:nth-child(even) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) tbody tr:nth-child(even) {
   background: var(--pnp-panel-alt) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.items-list .item:hover, tbody tr:hover) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.items-list .item:hover, tbody tr:hover) {
   background: var(--pnp-panel-alt) !important;
   border-color: var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] .sheet-tabs {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) .sheet-tabs {
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] .sheet-tabs .item {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) .sheet-tabs .item {
   color: var(--pnp-text) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.sheet-tabs .item.active, .sheet-tabs .item[aria-selected='true'], .sheet-tabs .item:hover) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.sheet-tabs .item.active, .sheet-tabs .item[aria-selected='true'], .sheet-tabs .item:hover) {
   background: var(--pnp-accent) !important;
   color: var(--pnp-accent-text) !important;
   border-color: var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] button {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) button {
   background: var(--pnp-accent) !important;
   color: var(--pnp-accent-text) !important;
   border-color: var(--pnp-accent) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] button:hover {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) button:hover {
   background: var(--pnp-panel-alt) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(button[aria-pressed='true'], .editor-menu button.active, .editor-menu button[data-active='true']) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(button[aria-pressed='true'], .editor-menu button.active, .editor-menu button[data-active='true']) {
   background: var(--pnp-accent) !important;
   color: var(--pnp-accent-text) !important;
   border-color: var(--pnp-accent) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.item-controls a, .effect-control, .rollable:hover) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.item-controls a, .effect-control, .rollable:hover) {
   color: var(--pnp-accent) !important;
   text-shadow: none !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.item-controls .item-delete, .effect-control[data-action='delete'], .clear-target:hover) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.item-controls .item-delete, .effect-control[data-action='delete'], .clear-target:hover) {
   color: var(--pnp-danger) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.target-display, .clear-target) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.target-display, .clear-target) {
   color: var(--pnp-muted) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(.spend-resolve-dropdown, .spend-resolve-submenu-list, .spend-adversity-dropdown, .spend-adversity-submenu-list, .apply-damage-dropdown, .apply-condition-dropdown) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(.spend-resolve-dropdown, .spend-resolve-submenu-list, .spend-adversity-dropdown, .spend-adversity-submenu-list, .apply-damage-dropdown, .apply-condition-dropdown) {
   background: var(--pnp-panel) !important;
   color: var(--pnp-text) !important;
   border-color: var(--pnp-border) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(a.spend-resolve-option, a.spend-adversity-option, .apply-damage-option, .apply-condition-option) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(a.spend-resolve-option, a.spend-adversity-option, .apply-damage-option, .apply-condition-option) {
   color: var(--pnp-text) !important;
 }
 
-.pnp-ru-sheet[data-pnp-theme] :is(a.spend-resolve-option, a.spend-adversity-option, .apply-damage-option, .apply-condition-option):is(:hover, :focus-visible) {
+.pnp-ru-sheet[data-pnp-theme]:not([data-pnp-theme='light']) :is(a.spend-resolve-option, a.spend-adversity-option, .apply-damage-option, .apply-condition-option):is(:hover, :focus-visible) {
   background: var(--pnp-accent) !important;
   color: var(--pnp-accent-text) !important;
 }
